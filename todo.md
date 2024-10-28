@@ -15,6 +15,6 @@ probably needs to happen is lang_search finishes but instead of sending data to 
 
 
 
-TODO
-add the docker compose and stuff for the docker compose file to be complete okay.
-try to simplify if possible
+start list of accomplishments
+
+fix github auth for push and auth
