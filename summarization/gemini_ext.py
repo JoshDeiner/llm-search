@@ -5,6 +5,7 @@ import google.generativeai as genai
 
 load_dotenv()
 
+
 class GeminiLLM:
     _instance = None
 
@@ -17,7 +18,9 @@ class GeminiLLM:
             self.model = genai.GenerativeModel(self._model_name)
             GeminiLLM._instance = self
         else:
-            raise Exception("GeminiLLM instance already exists. Use get_instance() instead.")
+            raise Exception(
+                "GeminiLLM instance already exists. Use get_instance() instead."
+            )
 
     @classmethod
     def get_instance(cls):
@@ -35,6 +38,7 @@ class GeminiLLM:
     def model_name(self):
         """Getter for the model name if access is needed."""
         return self._model_name
+
 
 # Usage example
 if __name__ == "__main__":

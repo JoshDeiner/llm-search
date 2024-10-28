@@ -7,18 +7,24 @@ from dotenv import load_dotenv
 
 from langchain_community.utilities import SearxSearchWrapper
 
-logging.basicConfig(filename='./logs/query.log', level=logging.INFO)
+logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
+
 
 def init_searxng_host():
 
     is_docker = os.getenv("IS_DOCKER") == "true"
 
-    host = "http://search_engine:8080/search" if is_docker else "http://localhost:8080/search"
+    host = (
+        "http://search_engine:8080/search"
+        if is_docker
+        else "http://localhost:8080/search"
+    )
 
     output = 3
     search = SearxSearchWrapper(searx_host=host, k=output)
     logging.info("search_engine initialized")
     return search
+
 
 def get_search_results(query: str):
     logging.info(f"Executing search query: {query}")
@@ -26,6 +32,7 @@ def get_search_results(query: str):
     r = search.run(query, language="en-us")
     logging.info(f"Search results: {r}")
     return r
+
 
 def main(search_term: str):
     load_dotenv()
@@ -39,16 +46,16 @@ def main(search_term: str):
 if __name__ == "__main__":
 
     logging.info("init main")
-    
+
     parser = argparse.ArgumentParser(description="Search with search_engine")
     parser.add_argument(
         "search_term",
         nargs="?",
         default="ai news october",
-        help="The search term to query search_engine"
+        help="The search term to query search_engine",
     )
 
     args = parser.parse_args()
-    
+
     # Pass the argument to main
     main(args.search_term)

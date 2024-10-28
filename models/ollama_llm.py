@@ -1,5 +1,6 @@
 import ollama  # Assuming you've installed the Ollama Python client
 
+
 class OllamaLLM:
     _instance = None
 
@@ -23,13 +24,15 @@ class OllamaLLM:
 
     def generate_streaming_response(self, prompt):
         """Generator function to stream the model output."""
-        for output in self.client.generate(model=self._model_name, prompt=prompt, stream=True):
+        for output in self.client.generate(
+            model=self._model_name, prompt=prompt, stream=True
+        ):
             yield output
 
 
 if __name__ == "__main__":
     ollama_llm = OllamaLLM.get_instance()
-    
+
     # Generate a full response
     response = ollama_llm.generate_response("Why is the sky blue?")
     if response:
