@@ -11,6 +11,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application files
 COPY . /app
 
-
 # Specify the command to run when the container starts
 CMD ["python", "lang_search.py"]

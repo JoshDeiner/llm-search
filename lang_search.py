@@ -1,24 +1,23 @@
 import pprint
 import logging
 import argparse
-from dotenv import load_dotenv
-
 import os
+
+from dotenv import load_dotenv
 
 from langchain_community.utilities import SearxSearchWrapper
 
 logging.basicConfig(filename='./logs/query.log', level=logging.INFO)
-# Configure logging
-logging.basicConfig(level=logging.INFO)
 
 def init_searxng_host():
 
     is_docker = os.getenv("IS_DOCKER") == "true"
-    host = "http://searxng-instance:8080/search" if is_docker else "http://localhost:8888/search"
+
+    host = "http://search_engine:8080/search" if is_docker else "http://localhost:8080/search"
 
     output = 3
     search = SearxSearchWrapper(searx_host=host, k=output)
-    logging.info("SearxNG host initialized")
+    logging.info("search_engine initialized")
     return search
 
 def get_search_results(query: str):
@@ -38,14 +37,15 @@ def main(search_term: str):
 
 
 if __name__ == "__main__":
+
     logging.info("init main")
-    # Set up argument parser
-    parser = argparse.ArgumentParser(description="Search with SearxNG")
+    
+    parser = argparse.ArgumentParser(description="Search with search_engine")
     parser.add_argument(
         "search_term",
         nargs="?",
-        default="who do the yankees play next",
-        help="The search term to query SearxNG with"
+        default="ai news october",
+        help="The search term to query search_engine"
     )
 
     args = parser.parse_args()

@@ -1,16 +1,23 @@
 services:
   app:
     build:
-      context: .  # Path to the Dockerfile
+      context: .  
       dockerfile: Dockerfile
-    image: lang_search_app  # Optional: name of the Docker image
+    image: project_app 
+    container_name: app_container
     working_dir: /app
     volumes:
-      - .:/app  # Mounts the current directory to /app in the container
-    command: ["python", "lang_search.py"]  # Command to run when the container starts
-    networks:
-      - search_network  # Connects to the external search_network
+      - .:/app 
+    command: ["python", "lang_search.py"] 
+    depends_on:
+      - search_engine 
 
-networks:
-  search_network:
-    external: true  # Specifies that this network already exists
+  search_engine:
+    image: searxng/searxng:latest
+    container_name: se_container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./settings.yml:/etc/searxng/settings.yml
+      - ./uwsgi.ini:/etc/searxng/uwsgi.ini
+    command: ["uwsgi", "--ini", "/etc/searxng/uwsgi.ini"]
