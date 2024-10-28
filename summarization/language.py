@@ -1,5 +1,6 @@
 import subprocess
 
+
 # probably get rid of once summary is up
 class OllamaConfig:
     _instance = None  # Singleton instance
@@ -17,8 +18,7 @@ class OllamaConfig:
             cls()  # Instantiate if it hasn't been created yet
         return cls._instance
 
-
-# fix later TODO!!!
+    # fix later TODO!!!
     def generate_response(self, prompt):
         """Method to generate a response from the local Ollama model."""
         process = subprocess.Popen(
@@ -26,19 +26,20 @@ class OllamaConfig:
             text=True,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            stderr=subprocess.PIPE,
         )
         stdout, stderr = process.communicate(input=prompt)
 
         if process.returncode != 0:
             raise RuntimeError(f"Error running model: {stderr}")
-        
+
         return stdout.strip()  # Return the generated response
 
     @property
     def model_name(self):
         """Getter for the model name if access is needed."""
         return self._model_name
+
 
 # Usage example
 if __name__ == "__main__":
