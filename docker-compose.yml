@@ -1,0 +1,16 @@
+services:
+  app:
+    build:
+      context: .  # Path to the Dockerfile
+      dockerfile: Dockerfile
+    image: lang_search_app  # Optional: name of the Docker image
+    working_dir: /app
+    volumes:
+      - .:/app  # Mounts the current directory to /app in the container
+    command: ["python", "lang_search.py"]  # Command to run when the container starts
+    networks:
+      - search_network  # Connects to the external search_network
+
+networks:
+  search_network:
+    external: true  # Specifies that this network already exists

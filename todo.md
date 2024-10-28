@@ -14,5 +14,9 @@ how to organize code to work from the start
 how to setup requirements from two installers
 should i uninstall anything
 
-should i put anything in docker compose
+commit the code for this repo
 
+
+TODO
+add the docker compose and stuff for the docker compose file to be complete okay.
+try to simplify if possible
