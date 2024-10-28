@@ -39,3 +39,4 @@ notebooks/*
 # included in docker compose, not needed for docker
 uwsgi.ini
 settings.yml
+.editorconfig
