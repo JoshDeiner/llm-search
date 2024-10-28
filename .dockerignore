@@ -1,0 +1,41 @@
+# Ignore Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories
+venv/
+env/
+.env/
+
+# Ignore log files
+*.log
+
+# Ignore test results and coverage reports
+.pytest_cache/
+.tox/
+coverage.xml
+htmlcov/
+.coverage
+
+# Ignore temporary files
+tmp/
+*.tmp
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore configuration files
+.DS_Store
+
+notebooks/*
+
+# Ignore Git ignore file
+.gitignore
+
+*.md
+
+# included in docker compose, not needed for docker
+uwsgi.ini
+settings.yml

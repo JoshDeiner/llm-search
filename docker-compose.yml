@@ -1,0 +1,23 @@
+services:
+  app:
+    build:
+      context: .  
+      dockerfile: Dockerfile
+    image: project_app 
+    container_name: app_container
+    working_dir: /app
+    volumes:
+      - .:/app 
+    command: ["python", "lang_search.py"] 
+    depends_on:
+      - search_engine 
+
+  search_engine:
+    image: searxng/searxng:latest
+    container_name: se_container
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./settings.yml:/etc/searxng/settings.yml
+      - ./uwsgi.ini:/etc/searxng/uwsgi.ini
+    command: ["uwsgi", "--ini", "/etc/searxng/uwsgi.ini"]
