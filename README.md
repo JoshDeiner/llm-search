@@ -12,7 +12,7 @@ A meta search engine aggregates results from multiple search engines without dir
 
 ## Getting Started
 
-This section provides instructions on installing Docker, setting up the project, and starting the application.
+This section provides instructions on setting up the `.env` file, installing Docker, configuring the project, and starting the application.
 
 ### Prerequisites
 
@@ -42,6 +42,30 @@ This section provides instructions on installing Docker, setting up the project,
    docker-compose --version
    ```
 
+### Setting Up Environment Variables
+
+1. **Create the `.env` File**:
+   Copy the provided `.env.sample` file to a new `.env` file:
+
+   ```bash
+   cp .env.sample .env
+   ```
+
+2. **Update Environment Variables**:
+   Open the `.env` file and update the necessary keys:
+
+   - **`GEMINI_KEY`**: Replace with your own Gemini API key, if applicable. This key may be required for some functionalities within the `lang_search.py` script.
+
+     ```plaintext
+     GEMINI_KEY="your_actual_gemini_key"
+     ```
+
+   - **`IS_DOCKER`**: Set to `true` if you are using Docker Compose (recommended setup). Set to `false` if running the application locally without Docker.
+
+     ```plaintext
+     IS_DOCKER=true  # Use "false" for local Python execution
+     ```
+
 ### Setting Up the Project
 
 1. **Clone the Repository**:
@@ -53,7 +77,7 @@ This section provides instructions on installing Docker, setting up the project,
    ```
 
 2. **Configure Search Engine Settings**:
-   Make sure the configuration files for SearxNG, `settings.yml` and `uwsgi.ini`, are correctly set up. These files should be located in the root of the project directory.
+   Ensure the configuration files for SearxNG, `settings.yml` and `uwsgi.ini`, are correctly set up. These files should be located in the root of the project directory.
 
 3. **Starting the Services**:
    Build and start the services using Docker Compose:
