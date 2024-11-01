@@ -7,43 +7,35 @@ from dotenv import load_dotenv
 
 from langchain_community.utilities import SearxSearchWrapper
 
+from user_service.factory import get_user_service
+from services.search_service import init_searxng_host
+
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 
-
-def init_searxng_host():
-
-    is_docker = os.getenv("IS_DOCKER") == "true"
-
-    host = (
-        "http://search_engine:8080/search"
-        if is_docker
-        else "http://localhost:8080/search"
-    )
-
-    output = 3
-    search = SearxSearchWrapper(searx_host=host, k=output)
-    logging.info("search_engine initialized")
-    return search
+# Instantiate User with injected dependencies
+# probably to switch based on if docker or not
+# Instantiate User with dependencies
 
 
-def get_search_results(query: str):
-    logging.info(f"Executing search query: {query}")
-    search = init_searxng_host()
-    r = search.run(query, language="en-us")
-    logging.info(f"Search results: {r}")
-    return r
+# def get_search_results(query: str):
+#     logging.info(f"Executing search query: {query}")
+#     search = init_searxng_host()
+#     r = search.run(query, language="en-us")
+#     logging.info(f"Search results: {r}")
+#     return r
 
 
-def main(search_term: str):
-    load_dotenv()
-    logging.info("Starting main execution")
-    logging.info(f"Search term in main: {search_term}")
-    results = get_search_results(search_term)
-    pprint.pprint(results)
-    logging.info("Finished main execution")
+# def main(search_term: str):
+#     load_dotenv()
+#     logging.info("Starting main execution")
+#     logging.info(f"Search term in main: {search_term}")
+#     results = get_search_results(search_term)
+#     pprint.pprint(results)
+#     logging.info("Finished main execution")
 
 
 if __name__ == "__main__":
+    load_dotenv()
 
     logging.info("init main")
 
@@ -58,4 +50,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Pass the argument to main
-    main(args.search_term)
+    # main(args.search_term)
+
+    user_service = get_user_service()
+
+    # Run search process to get raw results
+    web_results = user_service.search(args.search_term)
+    print("Web Search Results:", web_results)

@@ -18,3 +18,6 @@ probably needs to happen is lang_search finishes but instead of sending data to 
 start list of accomplishments
 
 fix github auth for push and auth
+
+
+is User class/search correct 
