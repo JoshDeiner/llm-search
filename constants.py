@@ -3,5 +3,7 @@
 import os
 
 # Define the web search URL constant
-# http://se_domain:8080/search"
-WEB_SEARCH_URL = os.getenv("http://se_domain:8080/search", "http://localhost:8080/search")
+
+is_docker = os.getenv("IS_DOCKER")
+WEB_SEARCH_URL = "http://localhost:8080/search" if is_docker else "http://search_engine:8080/search"
+

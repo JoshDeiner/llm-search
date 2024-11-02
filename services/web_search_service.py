@@ -1,7 +1,6 @@
 # services/web_search_service.py
 
 import os
-import requests
 import logging
 
 from constants import WEB_SEARCH_URL
@@ -16,11 +15,7 @@ class WebSearchService:
         logging.info(f"Executing search query: {search_term}")
         search = init_searxng_host()
         r = search.run(search_term, language="en-us")
+
         logging.info(f"Search results: {r}")
         return r
 
-
-        
-
-
-  

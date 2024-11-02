@@ -20,4 +20,19 @@ start list of accomplishments
 fix github auth for push and auth
 
 
-is User class/search correct 
+validation.
+
+Validate the results from a search engine
+
+create expectations at outset
+
+judge against output.
+
+ask do you think this should be run again.
+
+maybe ask do you think this should be run again
+
+
+next:
+
+modularize each feature so maybe one day they can scale
