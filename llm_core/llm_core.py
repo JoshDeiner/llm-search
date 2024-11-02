@@ -4,6 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
+
 class LLMCore:
     def __init__(self):
         self.kw_model = KeyBERT("distilbert-base-nli-mean-tokens")
@@ -32,10 +33,14 @@ class LLMCore:
         return np.mean(similarity_matrix)
 
     def validate_and_score_summary(
-        self, summary: str, original_text: str, expectations: dict = None, max_retries: int = 3
+        self,
+        summary: str,
+        original_text: str,
+        expectations: dict = None,
+        max_retries: int = 3,
     ) -> dict:
         """Validates and scores the summarization result with a retry mechanism if it doesn't meet the threshold."""
-        
+
         if expectations is None:
             expectations = {
                 "min_word_count": 30,

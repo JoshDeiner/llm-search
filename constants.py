@@ -1,10 +1,17 @@
 # constants.py
 
 import os
+import logging
+from dotenv import load_dotenv
+
+load_dotenv()
+logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
+
 
 # Define the web search URL constant
 
-is_docker = os.getenv("IS_DOCKER")
-WEB_SEARCH_URL = (
-    "http://localhost:8080/search" if is_docker else "http://search_engine:8080/search"
-)
+# prod
+WEB_SEARCH_URL = "http://search_engine:8080/search"
+
+# dev
+# WEB_SEARCH_URL = "http://localhost:8080/search"

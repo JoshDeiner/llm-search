@@ -8,10 +8,14 @@ from llm_core.llm_provider import LLMProvider  # Import LLM provider
 from user_service.factory import get_user_service
 from services.search_service import init_searxng_host
 
+
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
+
 
 def main(search_term: str):
     logging.info("Initializing search process")
+    load_dotenv()
+
     user_service = get_user_service()
 
     # Run search process to get raw results
@@ -19,7 +23,9 @@ def main(search_term: str):
     logging.info(f"Raw web search results: {web_results}")
 
     # Combine the search results for summarization
-    results_text = "\n\n".join(web_results)  # Concatenates all results with double line breaks
+    results_text = "\n\n".join(
+        web_results
+    )  # Concatenates all results with double line breaks
 
     # Initialize the LLM provider
     llm_core = LLMProvider(model_name="gemini")
@@ -43,7 +49,6 @@ def main(search_term: str):
 
 
 if __name__ == "__main__":
-    load_dotenv()
 
     # Parse CLI argument for the search term
     parser = argparse.ArgumentParser(description="Search with search_engine")
@@ -53,6 +58,7 @@ if __name__ == "__main__":
         default="what do the experts say about the yankees struggles vs the dodgers",
         help="The search term to query search_engine",
     )
+
     args = parser.parse_args()
 
     # Execute main function with the provided search term

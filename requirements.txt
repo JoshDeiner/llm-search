@@ -1,6 +1,10 @@
-requests==2.32.3
-langchain==0.3.4
-langchain-community==0.3.3
-python-dotenv==1.0.1
-google-generativeai==0.8.3
+keybert==0.8.5
+langchain_community
+numpy
 ollama==0.3.3
+protobuf==5.28.3
+python-dotenv==1.0.1
+scikit_learn==1.5.2
+requests==2.32.3
+langchain
+google-generativeai==0.8.3
