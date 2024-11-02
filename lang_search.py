@@ -4,58 +4,63 @@ import argparse
 import os
 
 from dotenv import load_dotenv
+from llm_core.llm_provider import LLMProvider  # Import LLM provider
+from user_service.factory import get_user_service
+from services.search_service import init_searxng_host
 
-from langchain_community.utilities import SearxSearchWrapper
 
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 
 
-def init_searxng_host():
-
-    is_docker = os.getenv("IS_DOCKER") == "true"
-
-    host = (
-        "http://search_engine:8080/search"
-        if is_docker
-        else "http://localhost:8080/search"
-    )
-
-    output = 3
-    search = SearxSearchWrapper(searx_host=host, k=output)
-    logging.info("search_engine initialized")
-    return search
-
-
-def get_search_results(query: str):
-    logging.info(f"Executing search query: {query}")
-    search = init_searxng_host()
-    r = search.run(query, language="en-us")
-    logging.info(f"Search results: {r}")
-    return r
-
-
 def main(search_term: str):
+    logging.info("Initializing search process")
     load_dotenv()
-    logging.info("Starting main execution")
-    logging.info(f"Search term in main: {search_term}")
-    results = get_search_results(search_term)
-    pprint.pprint(results)
-    logging.info("Finished main execution")
+
+    user_service = get_user_service()
+
+    # Run search process to get raw results
+    web_results = user_service.search(search_term)
+    logging.info(f"Raw web search results: {web_results}")
+
+    # Combine the search results for summarization
+    results_text = "\n\n".join(
+        web_results
+    )  # Concatenates all results with double line breaks
+
+    # Initialize the LLM provider
+    llm_core = LLMProvider(model_name="gemini")
+
+    # Generate and validate the summary
+    summary = llm_core.summarize_text(results_text)
+    validation_result = llm_core.validate_and_score_summary(summary, results_text)
+
+    # Log and output results based on validation
+    if validation_result["is_valid"]:
+        logging.info("Summary is valid according to validation criteria.")
+        print("Final Summary:", summary)
+        print("Validation Result:", validation_result)
+    else:
+        logging.warning(f"Summary validation failed: {validation_result['reason']}")
+        logging.info(
+            f"Summary did not meet criteria after retries. Final score: {validation_result['score']}"
+        )
+        print("Final Summary (Unvalidated):", summary)
+        print("Final Validation Result:", validation_result)
 
 
 if __name__ == "__main__":
 
-    logging.info("init main")
-
+    # Parse CLI argument for the search term
     parser = argparse.ArgumentParser(description="Search with search_engine")
     parser.add_argument(
         "search_term",
         nargs="?",
-        default="ai news october",
+        default="what do the experts say about the yankees struggles vs the dodgers",
         help="The search term to query search_engine",
     )
 
     args = parser.parse_args()
 
-    # Pass the argument to main
+    # Execute main function with the provided search term
     main(args.search_term)
+    logging.info("Search process completed.")
