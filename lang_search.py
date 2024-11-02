@@ -13,39 +13,44 @@ logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 def main(search_term: str):
     logging.info("Initializing search process")
     user_service = get_user_service()
-    
+
     # Run search process to get raw results
     web_results = user_service.search(search_term)
     logging.info(f"Raw web search results: {web_results}")
 
-    # Summarize the combined text with LLM
+    # Combine the search results for summarization
+    results_text = "\n\n".join(web_results)  # Concatenates all results with double line breaks
+
+    # Initialize the LLM provider
     llm_core = LLMProvider(model_name="gemini")
-    results_text = web_results
 
+    # Generate and validate the summary
     summary = llm_core.summarize_text(results_text)
+    validation_result = llm_core.validate_and_score_summary(summary, results_text)
 
-    # logging.info(f"Summary of web search results: {summary}")
-    
-    # Output results
-    logging.info("Search Results:")
+    # Log and output results based on validation
+    if validation_result["is_valid"]:
+        logging.info("Summary is valid according to validation criteria.")
+        print("Final Summary:", summary)
+        print("Validation Result:", validation_result)
+    else:
+        logging.warning(f"Summary validation failed: {validation_result['reason']}")
+        logging.info(
+            f"Summary did not meet criteria after retries. Final score: {validation_result['score']}"
+        )
+        print("Final Summary (Unvalidated):", summary)
+        print("Final Validation Result:", validation_result)
 
-    logging.info(web_results)
-    logging.info("")
-    logging.info("")
-
-    logging.info("Web Search Results Summary:")
-    logging.info(summary)
-    pprint.pprint(summary)
 
 if __name__ == "__main__":
     load_dotenv()
-    
+
     # Parse CLI argument for the search term
     parser = argparse.ArgumentParser(description="Search with search_engine")
     parser.add_argument(
         "search_term",
         nargs="?",
-        default="wake me up when september ends",
+        default="what do the experts say about the yankees struggles vs the dodgers",
         help="The search term to query search_engine",
     )
     args = parser.parse_args()

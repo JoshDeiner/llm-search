@@ -3,10 +3,13 @@
 from services.search_term_service import SearchTermService
 from services.web_search_service import WebSearchService
 
+
 class User:
-    def __init__(self, 
-                 search_term_service: SearchTermService, 
-                 web_search_service: WebSearchService):
+    def __init__(
+        self,
+        search_term_service: SearchTermService,
+        web_search_service: WebSearchService,
+    ):
         self.search_term_service = search_term_service
         self.web_search_service = web_search_service
 

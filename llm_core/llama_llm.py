@@ -39,8 +39,3 @@ if __name__ == "__main__":
         print("Full Response:", response)
     else:
         print("No response received")
-
-    # Generate a streaming response
-    # print("Streaming Response:")
-    # for line in ollama_llm.generate_streaming_response("Why is the sky blue?"):
-    #     print(line)

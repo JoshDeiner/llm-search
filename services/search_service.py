@@ -5,6 +5,7 @@ import logging
 from constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
 
+
 def init_searxng_host():
     """Initializes the SearxNG search engine host based on the environment."""
 
