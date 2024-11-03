@@ -41,54 +41,71 @@ def validate_se_results(search_data):
     return validated_se_results if validated_se_results else web_results
 
 
-def validate_summary(llm_core, summary, results_text):
+def validate_summary(llm_core, results_text):
     """
-    Validate and score the generated summary based on the original search results.
+    Generates a summary from results text and validates it using LLMCore’s built-in retry mechanism.
 
     Parameters:
-    llm_core (LLMProvider): The LLM provider instance.
-    summary (str): The generated summary text.
-    results_text (str): The concatenated search results text for comparison.
+    - llm_core (LLMCore): The LLM provider instance.
+    - results_text (str): The text to summarize and validate.
 
     Returns:
-    dict: The validation outcome and information about the summary.
+    bool: True if validation succeeds, False otherwise.
     """
+    # Generate the summary
+    summary = llm_core.summarize_text(results_text)
+    logging.info("Generated Summary:")
+    logging.info(summary)
+
+    # Validate the summary
     try:
-        summary_validation_result = llm_core.validate_and_score_summary(
-            summary, results_text
-        )
+        summary_validation_result = llm_core.validate_and_score_summary(summary, results_text)
     except Exception as e:
         logging.error(f"Error during summary validation: {e}")
-        # Return a default failure response indicating a validation process error
-        return {"is_valid": False, "reason": "Validation process encountered an error"}
+        return False
 
     # Log validation results for the summary
     logging.info("Summary Validation Result:")
     logging.info(pprint.pformat(summary_validation_result))
 
-    # Check and log based on validation results
     if summary_validation_result.get("is_valid"):
-        logging.info("Summary is valid according to validation criteria.")
+        logging.info("Summary validation succeeded.")
         logging.info("Final Summary:")
         logging.info(summary)
+        return True
     else:
-        logging.warning(
-            f"Summary validation failed: {summary_validation_result.get('reason')}"
-        )
-        logging.info(
-            f"Summary did not meet criteria. Final score: {summary_validation_result.get('score')}"
-        )
+        logging.warning(f"Summary validation failed: {summary_validation_result.get('reason')}")
+        return False
 
-        # Extra logging for debugging if failure patterns are noticed
-        if summary_validation_result.get("score", 0) < 0.5:
-            logging.critical(
-                "Critical low score detected in validation. Investigate data or LLM performance."
-            )
 
-        logging.info("Final Summary (Unvalidated):")
-        logging.info(summary)
+def search_and_validate(user_service, search_term):
+    """
+    Perform a search and validate the results.
+    """
+    try:
+        search_data = user_service.search(search_term)
+        return validate_se_results(search_data)
+    except RequestException as e:
+        logging.error(f"Network error: {e}")
+        return None
 
-    return summary_validation_result
+
+def retry_with_validation(func, *args, max_retries=3):
+    """
+    Retry a function that requires validation, with a maximum number of retries.
+    """
+    for attempt in range(1, max_retries + 1):
+        logging.info(f"Attempt {attempt} of {max_retries}")
+        
+        results = func(*args)
+        if results:
+            logging.info("Validation succeeded.")
+            return results
+        else:
+            logging.warning("Validation failed or network error. Retrying...")
+            if attempt == max_retries:
+                logging.error("All retries exhausted. Validation failed.")
+                return None
 
 
 def main(search_term: str):
@@ -98,51 +115,21 @@ def main(search_term: str):
     user_service = get_user_service()
     llm_core = LLMProvider(model_name="gemini")
 
-    max_retries = 3
-    for attempt in range(1, max_retries + 1):
-        logging.info(f"Attempt {attempt} of {max_retries}")
+    # Use retry_with_validation to perform search with validation
+    validated_se_results = retry_with_validation(search_and_validate, user_service, search_term)
 
-        try:
-            # Run search process to get raw results and validation results
-            search_data = user_service.search(search_term)
-        except RequestException as e:
-            logging.error(f"Network error during search attempt {attempt}: {e}")
-            if attempt == max_retries:
-                logging.error(
-                    "Failed to retrieve search results after maximum retries."
-                )
-                return  # Exit if we’ve hit the max retries
-            continue  # Retry on next loop iteration if not max attempts
+    if validated_se_results is None:
+        logging.error("Search and validation process failed.")
+        return
 
-        # Validate search engine results for summarization
-        validated_se_results = validate_se_results(search_data)
+    # Combine validated search engine results for summarization
+    results_text = "\n\n".join(validated_se_results)
 
-        # Combine the validated search engine results for summarization
-        results_text = "\n\n".join(validated_se_results)
-
-        try:
-            # Generate the summary
-            summary = llm_core.summarize_text(results_text)
-            logging.info("Generated Summary:")
-            logging.info(summary)
-        except Exception as e:
-            logging.error(f"Error during summary generation on attempt {attempt}: {e}")
-            if attempt == max_retries:
-                logging.error("Failed to generate summary after maximum retries.")
-                return  # Exit if we’ve hit the max retries
-            continue  # Retry on next loop iteration if not max attempts
-
-        # Validate the summary
-        summary_validation_result = validate_summary(llm_core, summary, results_text)
-
-        # Check if the summary validation passed
-        if summary_validation_result.get("is_valid"):
-            logging.info("Summary validation succeeded.")
-            break
-        elif attempt < max_retries:
-            logging.warning(f"Validation failed on attempt {attempt}. Retrying...")
-        else:
-            logging.error("Validation failed after maximum retries.")
+    # Generate the summary and validate it
+    if not validate_summary(llm_core, results_text):
+        logging.error("Summary generation and validation failed.")
+        return
+    logging.info("Summary generation and validation succeeded.")
 
 
 if __name__ == "__main__":
