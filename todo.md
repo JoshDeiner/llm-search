@@ -1,22 +1,21 @@
 
 
-look at search results 
 
-how to score search term in comparison to se list
-
-create validator step comparing query to se results
-  -> ie similarity(?) between search term and results returned
-
-
-
-
-make pr
+you can create a section for a particular query
 
 
 
 
 
+refactor retry statement for se search
 
+  
+
+create validator services
+
+create pipeline layers
+
+create documentation to describe layers
 
 
 
