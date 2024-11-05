@@ -4,7 +4,8 @@ import os
 import logging
 
 from constants import WEB_SEARCH_URL
-from services.search_service import init_searxng_host
+
+from services.search_engine_service import SearchEngineService
 
 
 class WebSearchService:
@@ -14,7 +15,7 @@ class WebSearchService:
     def fetch_results(self, search_term: str) -> list:
         """query search engine"""
         logging.info(f"Executing search query: {search_term}")
-        search = init_searxng_host()
+        search = SearchEngineService()
         r = search.run(search_term, language="en-us")
 
         logging.info(f"Search results: {r}")

@@ -1,66 +1,105 @@
-import pprint
+# import logging
+# import argparse
+# import os
+# from dotenv import load_dotenv
+
+# from llm_core.llm_provider import LLMProvider
+# from user_service.factory import get_user_service
+# from core_pipeline.stages.search_execution import search_and_validate, retry_with_validation
+# from core_pipeline.stages.data_processing import process_results
+# from core_pipeline.stages.summarization import summarize_results
+# from core_pipeline.validators.summary_validator import validate_summary
+
+# from services.search_engine_client import SearchEngineClient
+
+# logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
+
+# SEARCH_TERM_GLOBAL = "where to find the best muffin in north america"
+
+# def main(search_term: str):
+#     logging.info("Initializing search process")
+#     load_dotenv()
+
+#     # Initialize services
+#     user_service = get_user_service()
+#     llm_core = LLMProvider(model_name="gemini")
+
+#     # Step 1: Search and validate results
+#     validated_se_results = retry_with_validation(search_and_validate, user_service, search_term)
+
+#     if validated_se_results is None:
+#         logging.error("Search and validation process failed.")
+#         return
+
+#     # Step 2: Process results for summarization
+#     results_text = process_results(validated_se_results)
+
+#     # Step 3: Summarize the results
+#     summary = summarize_results(llm_core, results_text)
+#     if summary is None:
+#         logging.error("Summary generation failed.")
+#         return
+
+#     # Step 4: Validate the summary
+#     if not validate_summary(llm_core, results_text):
+#         logging.error("Summary generation and validation failed.")
+#         return
+
+#     logging.info("Summary generation and validation succeeded.")
+#     logging.info("Final Summary:")
+#     logging.info(summary)
+
+# if __name__ == "__main__":
+#     parser = argparse.ArgumentParser(description="Search with search_engine")
+#     parser.add_argument("search_term", nargs="?", default=SEARCH_TERM_GLOBAL, help="The search term to query search_engine")
+
+#     args = parser.parse_args()
+#     main(args.search_term)
+#     logging.info("Search process completed.")
+
+
 import logging
 import argparse
 import os
-
 from dotenv import load_dotenv
-from llm_core.llm_provider import LLMProvider  # Import LLM provider
-from user_service.factory import get_user_service
-from services.search_service import init_searxng_host
 
+from core_pipeline.main_pipeline import main_pipeline
+from user_service.factory import get_user_service
 
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 
+SEARCH_TERM_GLOBAL = "where to find the best muffin in North America"
 
-def main(search_term: str):
-    logging.info("Initializing search process")
+
+def cli_entry():
+    """
+    CLI entry point for the search and summary pipeline.
+    Parses the search term argument, initializes environment, and runs the main pipeline.
+    """
+    # Load environment variables
     load_dotenv()
 
+    # Initialize user service
     user_service = get_user_service()
 
-    # Run search process to get raw results
-    web_results = user_service.search(search_term)
-    logging.info(f"Raw web search results: {web_results}")
+    dude = user_service.search("where am i")
+    print("dude", dude)
 
-    # Combine the search results for summarization
-    results_text = "\n\n".join(
-        web_results
-    )  # Concatenates all results with double line breaks
-
-    # Initialize the LLM provider
-    llm_core = LLMProvider(model_name="gemini")
-
-    # Generate and validate the summary
-    summary = llm_core.summarize_text(results_text)
-    validation_result = llm_core.validate_and_score_summary(summary, results_text)
-
-    # Log and output results based on validation
-    if validation_result["is_valid"]:
-        logging.info("Summary is valid according to validation criteria.")
-        print("Final Summary:", summary)
-        print("Validation Result:", validation_result)
-    else:
-        logging.warning(f"Summary validation failed: {validation_result['reason']}")
-        logging.info(
-            f"Summary did not meet criteria after retries. Final score: {validation_result['score']}"
-        )
-        print("Final Summary (Unvalidated):", summary)
-        print("Final Validation Result:", validation_result)
-
-
-if __name__ == "__main__":
-
-    # Parse CLI argument for the search term
+    # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Search with search_engine")
     parser.add_argument(
         "search_term",
         nargs="?",
-        default="what do the experts say about the yankees struggles vs the dodgers",
-        help="The search term to query search_engine",
+        default=SEARCH_TERM_GLOBAL,
+        help="The search term to query the search engine",
     )
-
     args = parser.parse_args()
 
-    # Execute main function with the provided search term
-    main(args.search_term)
-    logging.info("Search process completed.")
+    # Run the main pipeline with parsed search term
+    logging.info("Starting search and summarization process")
+    main_pipeline(user_service, args.search_term)
+    logging.info("Search and summarization process completed.")
+
+
+if __name__ == "__main__":
+    cli_entry()

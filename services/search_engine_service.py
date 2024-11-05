@@ -6,7 +6,7 @@ from constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
 
 
-def init_searxng_host():
+def SearchEngineService():
     """Initializes the SearxNG search engine host based on the environment."""
 
     host = WEB_SEARCH_URL
