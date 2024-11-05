@@ -1,4 +1,4 @@
-def process_results(search_results):
+def process_results(search_results: str) -> str:
     """
     Processes raw search results for summarization, performing any necessary
     cleaning or transformations.

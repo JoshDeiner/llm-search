@@ -11,7 +11,7 @@ class User:
         search_term_service: SearchTermService,
         web_search_service: WebSearchService,
         validation_service: SearchValidationService,
-    ):
+    ) -> None:
         self.search_term_service = search_term_service
         self.web_search_service = web_search_service
         self.validation_service = validation_service

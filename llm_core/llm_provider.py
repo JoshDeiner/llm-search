@@ -6,7 +6,7 @@ from llm_core.llama_llm import OllamaLLM
 
 
 # type?
-def LLMProvider(model_name="gemini"):
+def LLMProvider(model_name: str="gemini") -> GeminiLLM:
     """Provides an instance of the specified LLM based on model_name."""
     if model_name.lower() == "gemini":
         return GeminiLLM.get_instance()

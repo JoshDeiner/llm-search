@@ -10,9 +10,10 @@ from llm_core.llm_provider import LLMProvider
 from core_pipeline.stages.search_execution import retry_with_validation
 
 from services.search_engine_client import SearchEngineClient
+from user_service.user import User
 
 
-def main_pipeline(user_service, search_term):
+def main_pipeline(user_service: User, search_term: str) -> None:
     """
     Main pipeline to fetch, validate, process, and summarize web search results.
 

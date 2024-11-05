@@ -9,7 +9,7 @@ from services.search_engine_service import SearchEngineService
 
 
 class WebSearchService:
-    def __init__(self, web_search_url: str = WEB_SEARCH_URL):
+    def __init__(self, web_search_url: str = WEB_SEARCH_URL) -> None:
         self.web_search_url = web_search_url
 
     def fetch_results(self, search_term: str) -> list:

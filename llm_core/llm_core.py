@@ -6,7 +6,7 @@ import numpy as np
 
 
 class LLMCore:
-    def __init__(self):
+    def __init__(self) -> None:
         self.kw_model = KeyBERT("distilbert-base-nli-mean-tokens")
 
     def extract_key_terms(self, text: str, top_n: int = 5) -> list:

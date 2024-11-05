@@ -4,9 +4,12 @@ from core_pipeline.validators.result_validator import validate_se_results
 from core_pipeline.stages.data_processing import (
     process_results,
 )  # Import process_results for use in validation
+from numpy import bool, float64
+from typing import Callable, Dict, List, Union
+from user_service.user import User
 
 
-def fetch_web_results(user_service, search_term):
+def fetch_web_results(user_service: User, search_term: str) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
     """
     Fetches raw web search results without validation.
 
@@ -29,7 +32,7 @@ def fetch_web_results(user_service, search_term):
         return None  # Return None to indicate network error
 
 
-def validate_search_results(search_data):
+def validate_search_results(search_data: Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]) -> str:
     """
     Validates search results and processes them for summarization.
 
@@ -51,7 +54,7 @@ def validate_search_results(search_data):
     return processed_text
 
 
-def retry_with_validation(func, *args, max_retries=3):
+def retry_with_validation(func: Callable, *args, max_retries=3) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
     """
     Attempts to execute a function with validation, retrying if necessary.
 

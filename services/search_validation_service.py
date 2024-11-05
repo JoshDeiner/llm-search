@@ -8,7 +8,7 @@ from difflib import SequenceMatcher
 
 
 class SearchValidationService:
-    def __init__(self):
+    def __init__(self) -> None:
         self.tfidf_vectorizer = TfidfVectorizer()
         self.semantic_model = SentenceTransformer("all-MiniLM-L6-v2")
         self.kw_model = KeyBERT("distilbert-base-nli-mean-tokens")
