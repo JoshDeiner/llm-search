@@ -3,11 +3,12 @@ import logging
 from constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
 
+
 class SearchEngineClient:
     """
     A client for interacting with the SearxNG search engine.
     """
-    
+
     def __init__(self):
         """
         Initializes the search engine client.

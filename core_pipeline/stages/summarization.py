@@ -1,5 +1,6 @@
 import logging
 
+
 def summarize_results(llm_core, results_text):
     """
     Summarizes the search results text using the LLM core.

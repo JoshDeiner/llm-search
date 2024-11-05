@@ -1,12 +1,15 @@
 import logging
 from requests.exceptions import RequestException
 from core_pipeline.validators.result_validator import validate_se_results
-from core_pipeline.stages.data_processing import process_results  # Import process_results for use in validation
+from core_pipeline.stages.data_processing import (
+    process_results,
+)  # Import process_results for use in validation
+
 
 def fetch_web_results(user_service, search_term):
     """
     Fetches raw web search results without validation.
-    
+
     Parameters:
     - user_service: The service handling the search operation.
     - search_term: The search term to query.
@@ -25,10 +28,11 @@ def fetch_web_results(user_service, search_term):
         logging.error(f"Network error during search execution: {e}")
         return None  # Return None to indicate network error
 
+
 def validate_search_results(search_data):
     """
     Validates search results and processes them for summarization.
-    
+
     Parameters:
     - search_data: Raw search data fetched from the web.
 
@@ -37,14 +41,15 @@ def validate_search_results(search_data):
     """
     # Validate the search results
     validated_results = validate_se_results(search_data)
-    
+
     # Process validated results for summarization
     if not validated_results:
         logging.warning("No valid results after validation.")
         return None
-    
+
     processed_text = process_results(validated_results)
     return processed_text
+
 
 def retry_with_validation(func, *args, max_retries=3):
     """
@@ -60,13 +65,13 @@ def retry_with_validation(func, *args, max_retries=3):
     """
     for attempt in range(1, max_retries + 1):
         logging.info(f"Attempt {attempt} of {max_retries}")
-        
+
         results = func(*args)
         if results and "No results found" not in results:
             logging.info("Validation succeeded.")
             return results
         else:
             logging.warning("Validation failed or network error. Retrying...")
-    
+
     logging.error("All retries exhausted. Validation failed.")
     return None

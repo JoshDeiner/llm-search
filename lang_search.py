@@ -33,7 +33,7 @@
 
 #     # Step 2: Process results for summarization
 #     results_text = process_results(validated_se_results)
-    
+
 #     # Step 3: Summarize the results
 #     summary = summarize_results(llm_core, results_text)
 #     if summary is None:
@@ -58,7 +58,6 @@
 #     logging.info("Search process completed.")
 
 
-
 import logging
 import argparse
 import os
@@ -70,6 +69,7 @@ from user_service.factory import get_user_service
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 
 SEARCH_TERM_GLOBAL = "where to find the best muffin in North America"
+
 
 def cli_entry():
     """
@@ -91,7 +91,7 @@ def cli_entry():
         "search_term",
         nargs="?",
         default=SEARCH_TERM_GLOBAL,
-        help="The search term to query the search engine"
+        help="The search term to query the search engine",
     )
     args = parser.parse_args()
 
@@ -99,6 +99,7 @@ def cli_entry():
     logging.info("Starting search and summarization process")
     main_pipeline(user_service, args.search_term)
     logging.info("Search and summarization process completed.")
+
 
 if __name__ == "__main__":
     cli_entry()

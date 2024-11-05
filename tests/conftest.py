@@ -14,6 +14,7 @@ logging.basicConfig(
     filemode="w",  # Overwrite the log file each test run
 )
 
+
 # Optional: A fixture to log debug information for specific tests
 @pytest.fixture(autouse=True)
 def log_test_start_and_end(request):

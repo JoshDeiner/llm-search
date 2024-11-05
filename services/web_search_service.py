@@ -7,6 +7,7 @@ from constants import WEB_SEARCH_URL
 
 from services.search_engine_service import SearchEngineService
 
+
 class WebSearchService:
     def __init__(self, web_search_url: str = WEB_SEARCH_URL):
         self.web_search_url = web_search_url

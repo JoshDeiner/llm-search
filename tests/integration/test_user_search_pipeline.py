@@ -1,13 +1,16 @@
 import pytest
 from user_service.factory import get_user_service
 
+
 # Mock the WebSearchService to provide consistent test data for the pipeline
 def mock_web_search(query):
     return [{"title": "Mock Restaurant", "description": "Top-rated food in Tokyo"}]
 
+
 # Mock the SearchValidationService to mark results as valid
 def mock_validate(search_term, result):
     return {"is_valid": True}
+
 
 # Fixture to set up user_service with mocks for the web search and validation parts of the pipeline
 @pytest.fixture
@@ -20,6 +23,7 @@ def user_service(monkeypatch):
     monkeypatch.setattr(service.validation_service, "validate", mock_validate)
 
     return service
+
 
 def test_user_search_pipeline(user_service):
     search_term = "best restaurants in Tokyo"
@@ -36,7 +40,8 @@ def test_user_search_pipeline(user_service):
     assert "validation_results" in search_data
     assert isinstance(search_data["validation_results"], list)
     validated_results = [
-        result for result in search_data["validation_results"]
+        result
+        for result in search_data["validation_results"]
         if result.get("is_valid", False)
     ]
     assert len(validated_results) > 0  # At least one result should be valid

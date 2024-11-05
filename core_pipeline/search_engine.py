@@ -2,6 +2,7 @@ import logging
 from requests.exceptions import RequestException
 from user_service.factory import get_user_service  # Import the user service factory
 
+
 def execute_search(query):
     """
     Executes a search using the provided query.
