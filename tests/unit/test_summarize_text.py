@@ -1,5 +1,5 @@
 import pytest
-from llm_core.llm_provider import LLMProvider
+from src.llm_core.llm_provider import LLMProvider
 
 
 @pytest.fixture

@@ -1,10 +1,10 @@
 # tests/e2e/test_e2e_search_to_summary.py
 import pytest
 import logging
-from user_service.factory import get_user_service
-from core_pipeline.stages.data_processing import process_results
-from core_pipeline.stages.summarization import summarize_results
-from llm_core.llm_provider import LLMProvider
+from src.user_service.factory import get_user_service
+from src.core_pipeline.stages.data_processing import process_results
+from src.core_pipeline.stages.summarization import summarize_results
+from src.llm_core.llm_provider import LLMProvider
 
 
 @pytest.fixture
