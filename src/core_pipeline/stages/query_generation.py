@@ -14,7 +14,3 @@ def generate_query(search_term: str) -> dict[str, str]:
     # For example, you might want to add parameters or preprocess the term
     formatted_query = {"query": search_term.strip().lower()}
     return formatted_query
-
-
-
-
