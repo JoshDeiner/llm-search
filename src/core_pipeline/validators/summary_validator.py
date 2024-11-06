@@ -5,6 +5,7 @@ from typing import Union
 
 from src.llm_core.llm_core import LLMCore
 
+
 def validate_summary(llm_core: LLMCore, results_text: str) -> bool:
     summary = llm_core.summarize_text(results_text)
     logging.info("Generated Summary:")

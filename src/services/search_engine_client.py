@@ -1,4 +1,3 @@
-
 import json
 import logging
 from typing import Optional
@@ -14,6 +13,7 @@ from src.constants import WEB_SEARCH_URL
 ## not being used ##
 
 SearchEngineClientResults = Optional[Union[Dict[str, Any], List[Dict[str, Any]]]]
+
 
 class SearchEngineClient:
     """
@@ -44,7 +44,9 @@ class SearchEngineClient:
 
             # Attempt to parse results as JSON if needed
             if isinstance(results, str):
-                results = json.loads(results)  # Parse JSON if results are in string format
+                results = json.loads(
+                    results
+                )  # Parse JSON if results are in string format
 
             # Ensure results are either a dictionary or list of dictionaries
             if isinstance(results, (dict, list)):

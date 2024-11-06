@@ -20,7 +20,9 @@ class ValidationResult(TypedDict):
 class SearchValidationService:
     def __init__(self) -> None:
         self.tfidf_vectorizer: TfidfVectorizer = TfidfVectorizer()
-        self.semantic_model: SentenceTransformer = SentenceTransformer("all-MiniLM-L6-v2")
+        self.semantic_model: SentenceTransformer = SentenceTransformer(
+            "all-MiniLM-L6-v2"
+        )
         self.kw_model: KeyBERT = KeyBERT("distilbert-base-nli-mean-tokens")
 
     def cosine_similarity_score(self, query: str, result_text: str) -> float:
@@ -30,7 +32,9 @@ class SearchValidationService:
 
     def semantic_similarity_score(self, query: str, result_text: str) -> float:
         query_embedding = self.semantic_model.encode(query, convert_to_tensor=True)
-        result_embedding = self.semantic_model.encode(result_text, convert_to_tensor=True)
+        result_embedding = self.semantic_model.encode(
+            result_text, convert_to_tensor=True
+        )
         similarity = util.cos_sim(query_embedding, result_embedding)
         return similarity.item()
 
@@ -46,13 +50,17 @@ class SearchValidationService:
         overlap_count = sum(1 for kw in query_keywords if kw in result_keywords)
         return overlap_count / len(query_keywords) if query_keywords else 1.0
 
-    def validate(self, query: str, result_text: str, threshold: float = 0.6) -> ValidationResult:
+    def validate(
+        self, query: str, result_text: str, threshold: float = 0.6
+    ) -> ValidationResult:
         cosine_score: float = self.cosine_similarity_score(query, result_text)
         semantic_score: float = self.semantic_similarity_score(query, result_text)
         keyword_score: float = self.keyword_coverage_score(query, result_text)
 
         # Weighted average score
-        score: float = (cosine_score * 0.3) + (semantic_score * 0.5) + (keyword_score * 0.2)
+        score: float = (
+            (cosine_score * 0.3) + (semantic_score * 0.5) + (keyword_score * 0.2)
+        )
 
         return {
             "score": score,
@@ -66,4 +74,3 @@ class SearchValidationService:
                 else "Below relevance threshold"
             ),
         }
-

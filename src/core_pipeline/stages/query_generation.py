@@ -1,5 +1,5 @@
-
 # doesn't look used
+
 
 def generate_query(search_term):
     """

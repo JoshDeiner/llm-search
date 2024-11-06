@@ -5,7 +5,6 @@ from typing import Generator
 from typing import Any
 
 
-
 class OllamaLLM:
     _instance: Optional["OllamaLLM"] = None
 

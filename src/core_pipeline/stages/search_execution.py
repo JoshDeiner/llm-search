@@ -4,20 +4,21 @@ from requests.exceptions import RequestException
 from src.core_pipeline.validators.result_validator import validate_se_results
 from src.core_pipeline.stages.data_processing import (
     process_results,
-)  
+)
 from src.user_service.user import User
 
-from numpy import bool, float64
-from typing import (
-    Callable,
-    Dict,
-    List,
-    Union
-)
+from numpy import bool
+from numpy import float64
+
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Union
 
 
-
-def fetch_web_results(user_service: User, search_term: str) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
+def fetch_web_results(
+    user_service: User, search_term: str
+) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
     """
     Fetches raw web search results without validation.
 
@@ -40,7 +41,11 @@ def fetch_web_results(user_service: User, search_term: str) -> Dict[str, Union[s
         return None  # Return None to indicate network error
 
 
-def validate_search_results(search_data: Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]) -> str:
+def validate_search_results(
+    search_data: Dict[
+        str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]
+    ]
+) -> str:
     """
     Validates search results and processes them for summarization.
 
@@ -62,7 +67,9 @@ def validate_search_results(search_data: Dict[str, Union[str, List[Dict[str, Uni
     return processed_text
 
 
-def retry_with_validation(func: Callable, *args, max_retries=3) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
+def retry_with_validation(
+    func: Callable, *args, max_retries=3
+) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:
     """
     Attempts to execute a function with validation, retrying if necessary.
 

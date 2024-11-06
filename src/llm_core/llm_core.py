@@ -10,13 +10,13 @@ from typing import Optional
 from typing import Union
 
 
-
 # Define a type alias for the expectations dictionary
 ExpectationValues = Optional[Union[int, float, List[str]]]
 Expectations = Optional[Dict[str, ExpectationValues]]
 
 # Define a type alias for the result of validate_and_score_summary
 ValidationSummaryResult = Dict[str, Union[float, bool, str]]
+
 
 class LLMCore:
     def __init__(self) -> None:

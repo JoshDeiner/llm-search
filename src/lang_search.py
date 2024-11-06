@@ -1,4 +1,3 @@
-
 import logging
 import argparse
 import os
@@ -6,7 +5,9 @@ from dotenv import load_dotenv
 
 from src.core_pipeline.execute_pipeline import execute_pipeline
 from src.user_service.factory import get_user_service
-from src.user_service.user import User  # Assuming User is the type returned by get_user_service
+from src.user_service.user import (
+    User,
+)  # Assuming User is the type returned by get_user_service
 
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)
 

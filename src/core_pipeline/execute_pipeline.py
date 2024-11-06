@@ -38,7 +38,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     # print("yo", search_data)
 
     # Step 1: Fetch web results with retry mechanism
-    
+
     raw_search_data = retry_with_validation(
         fetch_web_results, user_service, search_term
     )
