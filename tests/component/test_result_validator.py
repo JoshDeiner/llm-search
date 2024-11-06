@@ -1,9 +1,8 @@
 from src.core_pipeline.validators.result_validator import validate_search_engine_results
 
-
 def test_validate_search_engine_results():
     search_data = {
-        "search_engine_results": [{"title": "Valid Result"}, {"title": "Invalid Result"}],
+        "web_results": [{"title": "Valid Result"}, {"title": "Invalid Result"}],
         "validation_results": [{"is_valid": True}, {"is_valid": False}],
     }
     validated_results = validate_search_engine_results(search_data)
