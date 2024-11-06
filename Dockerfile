@@ -16,4 +16,4 @@ COPY . /app
 ENV PYTHONPATH="${PYTHONPATH}:/app/src"
 
 # Specify the command to run when the container starts
-CMD ["python", "lang_search.py"]
+CMD ["python", "-m", "src"]
