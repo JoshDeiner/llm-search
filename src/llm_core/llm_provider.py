@@ -1,12 +1,13 @@
 # llm_core/llm_provider.py
 
 import os
-from llm_core.gemini_llm import GeminiLLM
-from llm_core.llama_llm import OllamaLLM
+
+from src.llm_core.gemini_llm import GeminiLLM
+from src.llm_core.llama_llm import OllamaLLM
 
 
 # type?
-def LLMProvider(model_name: str="gemini") -> GeminiLLM:
+def LLMProvider(model_name: str = "gemini") -> GeminiLLM:
     """Provides an instance of the specified LLM based on model_name."""
     if model_name.lower() == "gemini":
         return GeminiLLM.get_instance()

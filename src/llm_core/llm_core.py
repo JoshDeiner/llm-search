@@ -4,17 +4,31 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
+from typing import List
+from typing import Dict
+from typing import Optional
+from typing import Union
+
+
+
+# Define a type alias for the expectations dictionary
+ExpectationValues = Optional[Union[int, float, List[str]]]
+Expectations = Optional[Dict[str, ExpectationValues]]
+
+# Define a type alias for the result of validate_and_score_summary
+ValidationSummaryResult = Dict[str, Union[float, bool, str]]
 
 class LLMCore:
     def __init__(self) -> None:
-        self.kw_model = KeyBERT("distilbert-base-nli-mean-tokens")
+        self.kw_model: KeyBERT = KeyBERT("distilbert-base-nli-mean-tokens")
 
-    def extract_key_terms(self, text: str, top_n: int = 5) -> list:
+    def extract_key_terms(self, text: str, top_n: int = 5) -> List[str]:
+        """Extracts key terms from the provided text."""
         keywords = self.kw_model.extract_keywords(text, top_n=top_n)
         return [word for word, score in keywords]
 
     def generate_text(self, prompt: str) -> str:
-        """Implements generate_text as expected by LLMCore."""
+        """Generates text based on the provided prompt."""
         response = self.model.generate_content(prompt)
         return response.text
 
@@ -23,7 +37,7 @@ class LLMCore:
         summary_prompt = f"Summarize the following:\n\n{text}"
         return self.generate_text(summary_prompt)
 
-    def synonym_match_score(self, summary: str, key_terms: list) -> float:
+    def synonym_match_score(self, summary: str, key_terms: List[str]) -> float:
         """Calculates a score for key term presence in summary using synonym/context matching."""
         if not key_terms:
             return 1.0
@@ -36,9 +50,9 @@ class LLMCore:
         self,
         summary: str,
         original_text: str,
-        expectations: dict = None,
+        expectations: Expectations = None,
         max_retries: int = 3,
-    ) -> dict:
+    ) -> ValidationSummaryResult:
         """Validates and scores the summarization result with a retry mechanism if it doesn't meet the threshold."""
 
         if expectations is None:

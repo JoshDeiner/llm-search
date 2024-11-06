@@ -3,7 +3,8 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
-from llm_core.llm_core import LLMCore
+
+from src.llm_core.llm_core import LLMCore
 
 load_dotenv()  # Load environment variables
 
@@ -11,7 +12,7 @@ load_dotenv()  # Load environment variables
 class GeminiLLM(LLMCore):
     _instance = None
 
-    def __init__(self, model_name: str="gemini-1.5-flash") -> None:
+    def __init__(self, model_name: str = "gemini-1.5-flash") -> None:
         """Initialize the Gemini model with configuration from environment variables."""
         # Call the initializer of the parent class LLMCore
         super().__init__()  # This ensures any initialization in LLMCore is run

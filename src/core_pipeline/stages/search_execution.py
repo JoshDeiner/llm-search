@@ -1,12 +1,20 @@
 import logging
 from requests.exceptions import RequestException
-from core_pipeline.validators.result_validator import validate_se_results
-from core_pipeline.stages.data_processing import (
+
+from src.core_pipeline.validators.result_validator import validate_se_results
+from src.core_pipeline.stages.data_processing import (
     process_results,
-)  # Import process_results for use in validation
+)  
+from src.user_service.user import User
+
 from numpy import bool, float64
-from typing import Callable, Dict, List, Union
-from user_service.user import User
+from typing import (
+    Callable,
+    Dict,
+    List,
+    Union
+)
+
 
 
 def fetch_web_results(user_service: User, search_term: str) -> Dict[str, Union[str, List[Dict[str, Union[float64, bool, float, str]]]]]:

@@ -1,8 +1,8 @@
 # user_service/factory.py
 
-from services.search_term_service import SearchTermService
-from services.web_search_service import WebSearchService
-from user_service.user import User
+from src.services.search_term_service import SearchTermService
+from src.services.web_search_service import WebSearchService
+from src.user_service.user import User
 
 
 def get_user_service(web_search_url: str) -> User:

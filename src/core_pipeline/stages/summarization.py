@@ -1,8 +1,8 @@
 import logging
-from llm_core.gemini_llm import GeminiLLM
+from src.llm_core.llm_core import LLMCore
 
 
-def summarize_results(llm_core: GeminiLLM, results_text: str) -> str:
+def summarize_results(llm_core: LLMCore, results_text: str) -> str:
     """
     Summarizes the search results text using the LLM core.
 

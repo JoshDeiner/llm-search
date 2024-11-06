@@ -1,12 +1,12 @@
 import pytest
-from services.web_search_service import WebSearchService
-from constants import WEB_SEARCH_URL
+from src.services.web_search_service import WebSearchService
+from src.constants import WEB_SEARCH_URL
 
 
 @pytest.fixture
 def search_service(monkeypatch):
     # Override WEB_SEARCH_URL to use a mock domain, avoiding real network endpoints during testing
-    monkeypatch.setattr("constants.WEB_SEARCH_URL", "http://mockdomain.com")
+    monkeypatch.setattr("src.constants.WEB_SEARCH_URL", "http://mockdomain.com")
 
     # Initialize the WebSearchService with the (mocked) constant
     service = WebSearchService(web_search_url=WEB_SEARCH_URL)

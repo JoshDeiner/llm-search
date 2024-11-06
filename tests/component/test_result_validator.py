@@ -1,4 +1,4 @@
-from core_pipeline.validators.result_validator import validate_se_results
+from src.core_pipeline.validators.result_validator import validate_se_results
 
 
 def test_validate_se_results():

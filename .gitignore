@@ -1,10 +1,7 @@
 *.env
 *.ipynb_checkpoints/*
-*/__pycache__/*
-*__pycache__/*
 todo.md
 monkeytype.sqlite3
-tests/integration/__pycache__/*
-tests/unit/__pycache__/*
-tests/component/__pycache__/*
-tests/e2e/__pycache__/*
+
+.mypy_*
+*__pycache__*

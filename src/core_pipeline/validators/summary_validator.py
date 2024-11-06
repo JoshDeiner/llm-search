@@ -1,8 +1,11 @@
 import logging
 import pprint
 
+from typing import Union
 
-def validate_summary(llm_core, results_text):
+from src.llm_core.llm_core import LLMCore
+
+def validate_summary(llm_core: LLMCore, results_text: str) -> bool:
     summary = llm_core.summarize_text(results_text)
     logging.info("Generated Summary:")
     logging.info(summary)
@@ -18,13 +21,13 @@ def validate_summary(llm_core, results_text):
     logging.info("Summary Validation Result:")
     logging.info(pprint.pformat(summary_validation_result))
 
-    if summary_validation_result.get("is_valid"):
+    if summary_validation_result.get("is_valid", False):
         logging.info("Summary validation succeeded.")
         logging.info("Final Summary:")
         logging.info(summary)
         return True
     else:
         logging.warning(
-            f"Summary validation failed: {summary_validation_result.get('reason')}"
+            f"Summary validation failed: {summary_validation_result.get('reason', 'Unknown reason')}"
         )
         return False

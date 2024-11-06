@@ -1,3 +1,6 @@
+
+# doesn't look used
+
 def generate_query(search_term):
     """
     Generates a structured query based on the user-provided search term.

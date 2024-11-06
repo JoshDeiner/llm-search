@@ -1,19 +1,19 @@
-# core_pipeline/main_pipeline.py
+# core_pipeline/execute_pipeline.py
 
 import logging
-from core_pipeline.stages.search_execution import (
+from src.core_pipeline.stages.search_execution import (
     fetch_web_results,
     validate_search_results,
 )
-from core_pipeline.stages.summarization import summarize_results
-from llm_core.llm_provider import LLMProvider
-from core_pipeline.stages.search_execution import retry_with_validation
+from src.core_pipeline.stages.summarization import summarize_results
+from src.llm_core.llm_provider import LLMProvider
+from src.core_pipeline.stages.search_execution import retry_with_validation
 
-from services.search_engine_client import SearchEngineClient
-from user_service.user import User
+from src.services.search_engine_client import SearchEngineClient
+from src.user_service.user import User
 
 
-def main_pipeline(user_service: User, search_term: str) -> None:
+def execute_pipeline(user_service: User, search_term: str) -> None:
     """
     Main pipeline to fetch, validate, process, and summarize web search results.
 
@@ -38,6 +38,7 @@ def main_pipeline(user_service: User, search_term: str) -> None:
     # print("yo", search_data)
 
     # Step 1: Fetch web results with retry mechanism
+    
     raw_search_data = retry_with_validation(
         fetch_web_results, user_service, search_term
     )

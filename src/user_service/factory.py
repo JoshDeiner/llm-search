@@ -1,9 +1,8 @@
-from services.search_term_service import SearchTermService
-from services.web_search_service import WebSearchService
-from services.search_validation_service import SearchValidationService
-
-from user_service.user import User
-from constants import WEB_SEARCH_URL
+from src.services.search_term_service import SearchTermService
+from src.services.web_search_service import WebSearchService
+from src.services.search_validation_service import SearchValidationService
+from src.user_service.user import User
+from src.constants import WEB_SEARCH_URL
 
 
 def get_user_service() -> User:
