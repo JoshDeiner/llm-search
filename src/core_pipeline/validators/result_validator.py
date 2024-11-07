@@ -3,7 +3,7 @@ import pprint
 
 from typing import Dict
 from typing import List
-from typing import Union
+from typing import Union, Any
 
 from src.shared.types import SearchEngineResults
 
@@ -12,12 +12,14 @@ SEValidationResult = Dict[str, Union[float, bool, str]]
 SearchEngineData = Dict[str, Union[str, List[str]]]
 
 
+
+# figure out how to define SearchEngineData
 # SearchEngineResults = str
 def validate_search_engine_results(
     search_data: SearchEngineData,
-) -> SearchEngineResults:
-    search_engine_results: SearchEngineResults = search_data.get("web_results", [])
-    validation_results: SearchEngineResults = search_data.get("validation_results", [])
+) -> Any:
+    search_engine_results: Union[str, List[str]] = search_data.get("web_results", [])
+    validation_results: Union[str, List[str]] = search_data.get("validation_results", [])
 
     logging.info("Raw search engine results:")
     logging.info(pprint.pformat(search_engine_results))

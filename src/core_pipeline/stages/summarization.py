@@ -13,12 +13,14 @@ def summarize_results(llm_core: LLMCore, results_text: str) -> str:
     Returns:
     str: A summary of the search results.
     """
+    summary: str
+
     try:
         summary = llm_core.summarize_text(results_text)
         logging.info("Summary generated successfully.")
         logging.info("Summary Content:")
         logging.info(summary)
-        return summary
     except Exception as e:
         logging.error(f"Error during summarization: {e}")
-        return None
+    finally:
+        return summary

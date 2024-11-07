@@ -1,7 +1,9 @@
 # doesn't look used
 
+from typing import Dict
 
-def generate_query(search_term: str) -> dict[str, str]:
+
+def generate_query(search_term: str) -> Dict[str, str]:
     """
     Generates a structured query based on the user-provided search term.
 
