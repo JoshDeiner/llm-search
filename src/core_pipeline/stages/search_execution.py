@@ -47,7 +47,6 @@ def fetch_web_results(
     try:
         # Perform the search
         search_data: SearchResult = user_service.search(search_term)
-        logging.info(f"Search data retrieved: {search_data}")
 
         return search_data
     except RequestException as e:

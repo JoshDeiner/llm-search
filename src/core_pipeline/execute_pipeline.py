@@ -24,19 +24,6 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     # Initialize the LLM provider for summarization
     llm_provider = LLMProvider(model_name="gemini")
 
-    # se_client = SearchEngineClient()
-
-    # se_client.search("where is")
-
-    # search_data = fetch_web_results(user_service, search_term)
-    # print("web", search_data["web_results"])
-
-    # search_results_validated = validate_search_results(search_data)
-
-    # raw_search_data = retry_with_validation(validate_search_results, search_data)
-
-    # print("yo", search_data)
-
     # Step 1: Fetch web results with retry mechanism
 
     raw_search_data = retry_with_validation(
@@ -59,6 +46,8 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     if summary is None:
         logging.error("Summary generation failed.")
         return
+
+    # write to document
 
     logging.info("Summary generation succeeded.")
     logging.info("Final Summary:")
