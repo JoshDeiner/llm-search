@@ -1,7 +1,7 @@
 import os
 
 
-def create_document(filename: str, title: str = None, content: str = "") -> None:
+def create_document(filename: str, title: str = "", content: str = "") -> None:
     """
     Creates a document with the specified title and content.
 

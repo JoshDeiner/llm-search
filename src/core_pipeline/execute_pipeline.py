@@ -12,8 +12,11 @@ from src.core_pipeline.stages.search_execution import retry_with_validation
 from src.services.search_engine_client import SearchEngineClient
 from src.user_service.user import User
 
+from typing import Any
+from typing import List
 
-def extract_works_cited(all_results):
+
+def extract_works_cited(all_results: Any) -> List[str]:
     """
     Extracts works cited entries from search results.
 

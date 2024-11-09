@@ -27,8 +27,6 @@ def validate_search_engine_results(
     # Log the raw data for debugging
     logging.info("Raw search engine results:")
     logging.info(pprint.pformat(search_engine_results))
-    logging.info("Raw validation results:")
-    logging.info(pprint.pformat(validation_results))
 
     # Handle cases where validation_results is empty
     if not validation_results:

@@ -9,7 +9,7 @@ class DocumentPipeline:
     This includes managing summaries, generating titles, and saving content to a text file.
     """
 
-    def __init__(self, summary: str, topic: str, works_cited: List[str] = None):
+    def __init__(self, summary: str, topic: str, works_cited: List[str] = []):
         """
         Initialize the pipeline with a summary string, a topic, and optional works cited references.
 
