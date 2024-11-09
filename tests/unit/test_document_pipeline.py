@@ -1,6 +1,7 @@
 import pytest
 from src.core_pipeline.stages.document import DocumentPipeline
 
+
 @pytest.fixture
 def test_data():
     """
@@ -35,8 +36,10 @@ def test_save_to_file_with_works_cited(mocker, test_data):
     Test saving to file with "Works Cited" included.
     """
     _, _, _, pipeline = test_data
-    mock_create_document = mocker.patch("src.core_pipeline.stages.document.create_document")
-    
+    mock_create_document = mocker.patch(
+        "src.core_pipeline.stages.document.create_document"
+    )
+
     file_name = "test_output"
     file_extension = ".md"
     pipeline.save_to_file(file_name=file_name, file_extension=file_extension)
@@ -49,7 +52,9 @@ def test_save_to_file_with_works_cited(mocker, test_data):
         "- Reference 1\n"
         "- Reference 2\n"
     )
-    mock_create_document.assert_called_once_with(file_name + file_extension, expected_content)
+    mock_create_document.assert_called_once_with(
+        file_name + file_extension, expected_content
+    )
 
 
 def test_save_to_file_without_works_cited(mocker, test_data):
@@ -58,18 +63,24 @@ def test_save_to_file_without_works_cited(mocker, test_data):
     """
     summary, topic, _, _ = test_data
     pipeline_no_citations = DocumentPipeline(summary=summary, topic=topic)
-    mock_create_document = mocker.patch("src.core_pipeline.stages.document.create_document")
-    
+    mock_create_document = mocker.patch(
+        "src.core_pipeline.stages.document.create_document"
+    )
+
     file_name = "test_output_no_citations"
     file_extension = ".md"
-    pipeline_no_citations.save_to_file(file_name=file_name, file_extension=file_extension)
+    pipeline_no_citations.save_to_file(
+        file_name=file_name, file_extension=file_extension
+    )
 
     # Check the generated content passed to create_document
     expected_content = (
         "# Summary of Test Topic\n\n"
         "This is a test summary.\nAnother test summary line.\n\n"
     )
-    mock_create_document.assert_called_once_with(file_name + file_extension, expected_content)
+    mock_create_document.assert_called_once_with(
+        file_name + file_extension, expected_content
+    )
 
 
 def test_save_to_file_permission_error(mocker, test_data, caplog):
@@ -77,7 +88,9 @@ def test_save_to_file_permission_error(mocker, test_data, caplog):
     Test that a PermissionError during save is handled gracefully.
     """
     _, _, _, pipeline = test_data
-    mocker.patch("src.core_pipeline.stages.document.create_document", side_effect=PermissionError)
+    mocker.patch(
+        "src.core_pipeline.stages.document.create_document", side_effect=PermissionError
+    )
 
     pipeline.save_to_file(file_name="restricted_output")
 

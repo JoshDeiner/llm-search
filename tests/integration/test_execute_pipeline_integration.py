@@ -10,6 +10,7 @@ class MockUserService:
     """
     Mock implementation of User service for integration testing.
     """
+
     def search(self, search_term: str) -> Dict[str, Any]:
         """
         Mock the search method to return a predefined search result.
@@ -19,8 +20,16 @@ class MockUserService:
         """
         return {
             "all_results": [
-                {"title": "Title 1", "link": "http://example.com/1", "snippet": "Snippet 1"},
-                {"title": "Title 2", "link": "http://example.com/2", "snippet": "Snippet 2"},
+                {
+                    "title": "Title 1",
+                    "link": "http://example.com/1",
+                    "snippet": "Snippet 1",
+                },
+                {
+                    "title": "Title 2",
+                    "link": "http://example.com/2",
+                    "snippet": "Snippet 2",
+                },
             ]
         }
 
@@ -40,6 +49,7 @@ class MockDocumentPipeline:
     """
     Mock implementation of DocumentPipeline for integration testing.
     """
+
     def __init__(self, summary: str, topic: str, works_cited: list[str]) -> None:
         """
         Mock the DocumentPipeline initializer.
@@ -69,7 +79,9 @@ def mock_pipeline(monkeypatch: MonkeyPatch) -> None:
 
     :param monkeypatch: pytest's MonkeyPatch fixture for modifying objects.
     """
-    monkeypatch.setattr("src.core_pipeline.execute_pipeline.DocumentPipeline", MockDocumentPipeline)
+    monkeypatch.setattr(
+        "src.core_pipeline.execute_pipeline.DocumentPipeline", MockDocumentPipeline
+    )
 
 
 @pytest.fixture
@@ -79,14 +91,18 @@ def mock_stages(monkeypatch: MonkeyPatch) -> None:
 
     :param monkeypatch: pytest's MonkeyPatch fixture for modifying objects.
     """
+
     def mock_validate_search_results(raw_data: Dict[str, Any]) -> str:
         return "Validated text"
 
-    def mock_summarize_results(llm_provider: object, validated_results_text: str) -> str:
+    def mock_summarize_results(
+        llm_provider: object, validated_results_text: str
+    ) -> str:
         return "Summary content"
 
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.validate_search_results", mock_validate_search_results
+        "src.core_pipeline.execute_pipeline.validate_search_results",
+        mock_validate_search_results,
     )
     monkeypatch.setattr(
         "src.core_pipeline.execute_pipeline.summarize_results", mock_summarize_results
@@ -94,9 +110,7 @@ def mock_stages(monkeypatch: MonkeyPatch) -> None:
 
 
 def test_execute_pipeline_integration(
-    mock_user_service: MockUserService, 
-    mock_pipeline: None, 
-    mock_stages: None
+    mock_user_service: MockUserService, mock_pipeline: None, mock_stages: None
 ) -> None:
     """
     Integration test for the execute_pipeline function.

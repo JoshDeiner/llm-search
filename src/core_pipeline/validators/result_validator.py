@@ -9,6 +9,7 @@ from typing import Any
 # Type aliases for readability
 SearchEngineData = Dict[str, Union[str, List[Dict[str, Any]]]]
 
+
 def validate_search_engine_results(
     search_data: SearchEngineData,
 ) -> List[Dict[str, Any]]:
@@ -35,12 +36,18 @@ def validate_search_engine_results(
         return search_engine_results
 
     # Ensure both are lists and have matching lengths
-    if not isinstance(search_engine_results, list) or not isinstance(validation_results, list):
-        logging.error("Invalid input: web_results and validation_results must be lists.")
+    if not isinstance(search_engine_results, list) or not isinstance(
+        validation_results, list
+    ):
+        logging.error(
+            "Invalid input: web_results and validation_results must be lists."
+        )
         return []
 
     if len(search_engine_results) != len(validation_results):
-        logging.error("Mismatched lengths: web_results and validation_results must have the same length.")
+        logging.error(
+            "Mismatched lengths: web_results and validation_results must have the same length."
+        )
         return []
 
     # Perform validation

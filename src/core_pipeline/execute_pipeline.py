@@ -25,8 +25,8 @@ def extract_works_cited(all_results):
         if not isinstance(entry, dict):
             logging.warning(f"Skipping invalid result entry: {entry}")
             continue
-        title = entry.get('title', 'No Title')
-        link = entry.get('link', 'No Link')
+        title = entry.get("title", "No Title")
+        link = entry.get("link", "No Link")
         citation = f"{title}: {link}"
         works_cited.append(citation)
     return works_cited
@@ -69,7 +69,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     logging.info(f"Final Summary:\n{summary}")
 
     # Step 3.1: Extract works cited from all_results
-    all_results = raw_search_data.get('all_results', [])
+    all_results = raw_search_data.get("all_results", [])
     works_cited = extract_works_cited(all_results)
 
     # Step 4: Write summary to document
@@ -79,7 +79,9 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
             topic=search_term,
             works_cited=works_cited,
         )
-        document_pipeline.save_to_file(file_name="pipeline_output", file_extension=".md")
+        document_pipeline.save_to_file(
+            file_name="pipeline_output", file_extension=".md"
+        )
         logging.info("Document successfully saved.")
     except PermissionError:
         logging.error("Permission denied: Unable to save the document.")

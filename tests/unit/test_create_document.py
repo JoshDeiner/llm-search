@@ -69,6 +69,7 @@ import os
 import pytest
 from src.utils.create_document import create_document
 
+
 def test_create_document_with_title_and_content(tmp_path):
     """
     Test create_document successfully writes a document with title and content.
@@ -86,7 +87,9 @@ def test_create_document_with_title_and_content(tmp_path):
     with open(file_path, "r", encoding="utf-8") as f:
         written_content = f.read()
     expected_content = f"# {title}\n\n{content}"
-    assert written_content == expected_content, "File content does not match the expected output."
+    assert (
+        written_content == expected_content
+    ), "File content does not match the expected output."
 
 
 def test_create_document_without_title(tmp_path):
@@ -105,7 +108,9 @@ def test_create_document_without_title(tmp_path):
     with open(file_path, "r", encoding="utf-8") as f:
         written_content = f.read()
     expected_content = content
-    assert written_content == expected_content, "File content does not match the expected output."
+    assert (
+        written_content == expected_content
+    ), "File content does not match the expected output."
 
 
 # def test_create_document_creates_missing_directories(tmp_path):
@@ -127,6 +132,7 @@ def test_create_document_without_title(tmp_path):
 #     expected_content = f"# {title}\n\n{content}"
 #     assert written_content == expected_content, "File content does not match the expected output."
 
+
 def test_create_document_creates_missing_directories(tmp_path):
     """
     Test create_document automatically creates missing directories.
@@ -137,7 +143,9 @@ def test_create_document_creates_missing_directories(tmp_path):
     content = "This is the test content."
 
     # Ensure the directory doesn't exist initially
-    assert not nested_path.parent.exists(), "Test setup failed: Directory unexpectedly exists."
+    assert (
+        not nested_path.parent.exists()
+    ), "Test setup failed: Directory unexpectedly exists."
 
     # Act
     create_document(filename=str(nested_path), title=title, content=content)
@@ -148,7 +156,10 @@ def test_create_document_creates_missing_directories(tmp_path):
     with open(nested_path, "r", encoding="utf-8") as f:
         written_content = f.read()
     expected_content = f"# {title}\n\n{content}"
-    assert written_content == expected_content, "File content does not match the expected output."
+    assert (
+        written_content == expected_content
+    ), "File content does not match the expected output."
+
 
 def test_create_document_permission_error(mocker, tmp_path):
     """
@@ -160,7 +171,11 @@ def test_create_document_permission_error(mocker, tmp_path):
 
     # Act & Assert
     with pytest.raises(PermissionError):
-        create_document(filename=str(restricted_path), title="Restricted Title", content="Restricted Content")
+        create_document(
+            filename=str(restricted_path),
+            title="Restricted Title",
+            content="Restricted Content",
+        )
 
     # Assert the mock was called
     mock_open.assert_called_once_with(str(restricted_path), "w", encoding="utf-8")

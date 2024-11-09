@@ -9,10 +9,9 @@
 
 #     # Check that only one result is returned
 #     assert len(validated_results) == 1, "Expected only one validated result"
-    
+
 #     # Check that the returned result is the valid one
 #     assert validated_results[0]["title"] == "Valid Result", "Expected title to be 'Valid Result'"
-
 
 
 import pytest
@@ -30,7 +29,9 @@ def test_validate_search_engine_results():
     assert len(validated_results) == 1, "Expected only one validated result"
 
     # Check that the returned result is the valid one
-    assert validated_results[0]["title"] == "Valid Result", "Expected title to be 'Valid Result'"
+    assert (
+        validated_results[0]["title"] == "Valid Result"
+    ), "Expected title to be 'Valid Result'"
 
 
 def test_validate_search_engine_results_no_validations():
@@ -68,4 +69,6 @@ def test_validate_search_engine_results_mismatched_lengths():
     validated_results = validate_search_engine_results(search_data)
 
     # Check that the function handles mismatched lengths gracefully
-    assert validated_results == [], "Expected an empty list for mismatched input lengths"
+    assert (
+        validated_results == []
+    ), "Expected an empty list for mismatched input lengths"

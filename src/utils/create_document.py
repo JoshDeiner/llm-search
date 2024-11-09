@@ -1,9 +1,10 @@
 import os
 
+
 def create_document(filename: str, title: str = None, content: str = "") -> None:
     """
     Creates a document with the specified title and content.
-    
+
     :param filename: Name of the file to create.
     :param title: (Optional) The title to include in the document.
     :param content: The main content of the document.
@@ -21,7 +22,7 @@ def create_document(filename: str, title: str = None, content: str = "") -> None
         file_content += content
 
         # Write to the file
-        with open(filename, 'w', encoding='utf-8') as file:
+        with open(filename, "w", encoding="utf-8") as file:
             file.write(file_content)
 
         print(f"Document '{filename}' created successfully.")

@@ -31,7 +31,7 @@ class User:
         search_term = self.search_term_service.create_search_term(user_input)
         search_results = self.web_search_service.fetch_results(search_term)
 
-        se_descriptions = [result['snippet'] for result in search_results]
+        se_descriptions = [result["snippet"] for result in search_results]
 
         # Validate each result against the query
         validation_results: List[ValidationResult] = [
@@ -43,5 +43,5 @@ class User:
             "search_term": search_term,
             "web_results": se_descriptions,
             "validation_results": validation_results,
-            "all_results": search_results
+            "all_results": search_results,
         }

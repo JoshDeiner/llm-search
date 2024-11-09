@@ -10,6 +10,7 @@ from src.shared.types import SearchEngineResults
 
 # WebSearchService -> name probably should be changed or combined
 
+
 class WebSearchService:
     def __init__(self, web_search_url: str = WEB_SEARCH_URL) -> None:
         self.web_search_url = web_search_url

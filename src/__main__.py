@@ -5,16 +5,20 @@ from dotenv import load_dotenv
 
 from src.core_pipeline.execute_pipeline import execute_pipeline
 from src.user_service.factory import get_user_service
-from src.user_service.user import User  # Assuming User is the type returned by get_user_service
+from src.user_service.user import (
+    User,
+)  # Assuming User is the type returned by get_user_service
 
 # Configure logging with timestamp
 logging.basicConfig(
     filename="./logs/query.log",
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-SEARCH_TERM_GLOBAL: str = "top 3 stories breaking news post USA election during November 2024"
+SEARCH_TERM_GLOBAL: str = (
+    "top 3 stories breaking news post USA election during November 2024"
+)
 
 
 def cli_entry() -> None:
@@ -24,7 +28,9 @@ def cli_entry() -> None:
     """
     # Load environment variables and check if loaded successfully
     if not load_dotenv():
-        logging.warning("Could not load environment variables. Ensure .env file exists.")
+        logging.warning(
+            "Could not load environment variables. Ensure .env file exists."
+        )
 
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Search with search_engine")

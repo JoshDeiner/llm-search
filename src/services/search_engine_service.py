@@ -6,8 +6,11 @@ from typing import Dict
 from src.constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
 
+
 class SearchEngineService:
-    def __init__(self, host: str = WEB_SEARCH_URL, num_results: int = 3, engines: List[str] = []):
+    def __init__(
+        self, host: str = WEB_SEARCH_URL, num_results: int = 3, engines: List[str] = []
+    ):
         """
         Initializes the SearxNG search engine with a specified host and default number of results.
         :param host: The Searx host URL.
@@ -21,8 +24,6 @@ class SearchEngineService:
     def run(self, query: str) -> List[Dict]:
         """Perform a search and return collected results."""
         results = self._search_wrapper.results(  # Use the correct private attribute
-            query=query,
-            num_results=self._num_results,
-            engines= self._engines
+            query=query, num_results=self._num_results, engines=self._engines
         )
         return results
