@@ -5,3 +5,4 @@ monkeytype.sqlite3
 
 .mypy_*
 *__pycache__*
+pipeline_output.md

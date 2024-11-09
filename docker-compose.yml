@@ -7,7 +7,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app 
-    command: ["python", "lang_search.py"]
+    command: ["python", "-m", "src"]
     container_name: app_container
     depends_on:
       - search_engine 

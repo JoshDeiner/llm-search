@@ -12,7 +12,7 @@ restart:
 	docker restart searxng-instance
 
 local:
-	python src/lang_search.py
+	python -m src
 test:
 	pytest tests/
 run:

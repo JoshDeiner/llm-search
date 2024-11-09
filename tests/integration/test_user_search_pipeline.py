@@ -4,7 +4,10 @@ from src.user_service.factory import get_user_service
 
 # Mock the WebSearchService to provide consistent test data for the pipeline
 def mock_web_search(query):
-    return [{"title": "Mock Restaurant", "description": "Top-rated food in Tokyo"}]
+    return [
+        {"title": "Mock Restaurant", "snippet": "Top-rated food in Tokyo"},
+        {"title": "Mock Cafe", "snippet": "Best coffee in Tokyo"},
+    ]
 
 
 # Mock the SearchValidationService to mark results as valid

@@ -29,16 +29,19 @@ class User:
     def search(self, user_input: str) -> List[str]:
         """Creates a search term, fetches results, and validates relevance."""
         search_term = self.search_term_service.create_search_term(user_input)
-        web_results = self.web_search_service.fetch_results(search_term)
+        search_results = self.web_search_service.fetch_results(search_term)
+
+        se_descriptions = [result["snippet"] for result in search_results]
 
         # Validate each result against the query
         validation_results: List[ValidationResult] = [
             self.validation_service.validate(search_term, result)
-            for result in web_results
+            for result in se_descriptions
         ]
 
         return {
             "search_term": search_term,
-            "web_results": web_results,
+            "web_results": se_descriptions,
             "validation_results": validation_results,
+            "all_results": search_results,
         }
