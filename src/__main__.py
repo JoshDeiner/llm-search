@@ -14,7 +14,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-SEARCH_TERM_GLOBAL: str = "where to find the best muffin in North America"
+SEARCH_TERM_GLOBAL: str = "top 3 stories breaking news post USA election during November 2024"
 
 
 def cli_entry() -> None:

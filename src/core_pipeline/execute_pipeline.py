@@ -6,11 +6,30 @@ from src.core_pipeline.stages.search_execution import (
     validate_search_results,
 )
 from src.core_pipeline.stages.summarization import summarize_results
+from src.core_pipeline.stages.document import DocumentPipeline
 from src.llm_core.llm_provider import LLMProvider
 from src.core_pipeline.stages.search_execution import retry_with_validation
-
 from src.services.search_engine_client import SearchEngineClient
 from src.user_service.user import User
+
+
+def extract_works_cited(all_results):
+    """
+    Extracts works cited entries from search results.
+
+    :param all_results: List of result dictionaries containing 'title' and 'link'.
+    :return: List of formatted citation strings.
+    """
+    works_cited = []
+    for entry in all_results:
+        if not isinstance(entry, dict):
+            logging.warning(f"Skipping invalid result entry: {entry}")
+            continue
+        title = entry.get('title', 'No Title')
+        link = entry.get('link', 'No Link')
+        citation = f"{title}: {link}"
+        works_cited.append(citation)
+    return works_cited
 
 
 def execute_pipeline(user_service: User, search_term: str) -> None:
@@ -25,7 +44,6 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     llm_provider = LLMProvider(model_name="gemini")
 
     # Step 1: Fetch web results with retry mechanism
-
     raw_search_data = retry_with_validation(
         fetch_web_results, user_service, search_term
     )
@@ -47,8 +65,25 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
         logging.error("Summary generation failed.")
         return
 
-    # write to document
-
     logging.info("Summary generation succeeded.")
-    logging.info("Final Summary:")
-    logging.info(summary)
+    logging.info(f"Final Summary:\n{summary}")
+
+    # Step 3.1: Extract works cited from all_results
+    all_results = raw_search_data.get('all_results', [])
+    works_cited = extract_works_cited(all_results)
+
+    # Step 4: Write summary to document
+    try:
+        document_pipeline = DocumentPipeline(
+            summary=summary,
+            topic=search_term,
+            works_cited=works_cited,
+        )
+        document_pipeline.save_to_file(file_name="pipeline_output", file_extension=".md")
+        logging.info("Document successfully saved.")
+    except PermissionError:
+        logging.error("Permission denied: Unable to save the document.")
+    except IOError as e:
+        logging.error(f"IOError occurred while saving the document: {e}")
+    except Exception as e:
+        logging.error("An unexpected error occurred in document saving.", exc_info=True)

@@ -12,7 +12,7 @@ class TestSearchEngineService:
         mock_instance = MockSearxSearchWrapper.return_value
 
         # Act
-        service = SearchEngineService(host="http://localhost:8080", num_results=5)
+        service = SearchEngineService(host="http://localhost:8080", num_results=5, engines=["brave"])
 
         # Assert
         assert service._host == "http://localhost:8080"
@@ -28,7 +28,7 @@ class TestSearchEngineService:
             {'title': 'Title 2', 'link': 'http://example.com/2', 'snippet': 'Snippet 2'},
         ]
 
-        service = SearchEngineService()
+        service = SearchEngineService(engines=["brave"])
 
         # Act
         results = service.run("landmarks in Paris")
@@ -39,7 +39,7 @@ class TestSearchEngineService:
         assert results[1]['link'] == 'http://example.com/2'
         assert results[0]['snippet'] == 'Snippet 1'
         assert results[1]['snippet'] == 'Snippet 2'
-        mock_instance.results.assert_called_once_with(query="landmarks in Paris", num_results=3)
+        mock_instance.results.assert_called_once_with(query="landmarks in Paris", num_results=3, engines=["brave"])
 
 # This allows running the test directly from the script
 if __name__ == '__main__':

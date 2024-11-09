@@ -43,4 +43,5 @@ class User:
             "search_term": search_term,
             "web_results": se_descriptions,
             "validation_results": validation_results,
+            "all_results": search_results
         }
