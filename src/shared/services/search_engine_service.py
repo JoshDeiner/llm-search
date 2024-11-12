@@ -2,7 +2,7 @@ from typing import List
 from typing import Dict
 
 
-from src.constants import WEB_SEARCH_URL
+from src.shared.config.constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
 
 

@@ -1,6 +1,6 @@
+
 # constants.py
 
-import os
 import logging
 
 logging.basicConfig(filename="./logs/query.log", level=logging.INFO)

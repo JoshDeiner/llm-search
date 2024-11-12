@@ -2,12 +2,12 @@
 
 import pytest
 from unittest.mock import patch
-from src.services.search_engine_service import SearchEngineService
+from src.shared.services.search_engine_service import SearchEngineService
 
 
 class TestSearchEngineService:
 
-    @patch("src.services.search_engine_service.SearxSearchWrapper")
+    @patch("src.shared.services.search_engine_service.SearxSearchWrapper")
     def test_initialization(self, MockSearxSearchWrapper):
         # Arrange
         mock_instance = MockSearxSearchWrapper.return_value
@@ -22,7 +22,7 @@ class TestSearchEngineService:
         assert service._num_results == 5
         assert service._search_wrapper == mock_instance
 
-    @patch("src.services.search_engine_service.SearxSearchWrapper")
+    @patch("src.shared.services.search_engine_service.SearxSearchWrapper")
     def test_run_method(self, MockSearxSearchWrapper):
         # Arrange
         mock_instance = MockSearxSearchWrapper.return_value

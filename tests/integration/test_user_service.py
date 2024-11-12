@@ -22,10 +22,10 @@ def mock_user_service(monkeypatch):
 
     # Replace the real services with mocks
     monkeypatch.setattr(
-        "src.services.web_search_service.WebSearchService", MockWebSearchService
+        "src.shared.services.web_search_service.WebSearchService", MockWebSearchService
     )
     monkeypatch.setattr(
-        "src.services.search_validation_service.SearchValidationService",
+        "src.shared.services.search_validation_service.SearchValidationService",
         MockSearchValidationService,
     )
 
@@ -79,10 +79,10 @@ def test_user_search_empty_results(monkeypatch):
 
     # Replace the real services with mocks
     monkeypatch.setattr(
-        "src.services.web_search_service.WebSearchService", MockWebSearchService
+        "src.shared.services.web_search_service.WebSearchService", MockWebSearchService
     )
     monkeypatch.setattr(
-        "src.services.search_validation_service.SearchValidationService",
+        "src.shared.services.search_validation_service.SearchValidationService",
         MockSearchValidationService,
     )
 

@@ -1,13 +1,13 @@
 # user_service/user.py
 
-from src.services.web_search_service import WebSearchService
+from src.shared.services.web_search_service import WebSearchService
 
-from src.services.search_validation_service import SearchValidationService
-from src.services.search_validation_service import ValidationResult
+from src.shared.services.search_validation_service import SearchValidationService
+from src.shared.services.search_validation_service import ValidationResult
 
 from typing import List
 
-from src.shared.types import SearchResponse
+from src.shared.config.types import SearchResponse
 
 
 class User:
