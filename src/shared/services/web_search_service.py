@@ -1,10 +1,9 @@
 # services/web_search_service.py
 
-import os
 import logging
 from typing import List
 
-from src.constants import WEB_SEARCH_URL
+from src.shared.config.constants import WEB_SEARCH_URL
 from src.shared.services.search_engine_service import SearchEngineService
 
 class WebSearchService:

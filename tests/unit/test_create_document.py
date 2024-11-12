@@ -1,6 +1,5 @@
-import os
 import pytest
-from src.utils.create_document import create_document
+from src.shared.utils.create_document import create_document
 
 
 def test_create_document_with_title_and_content(tmp_path):

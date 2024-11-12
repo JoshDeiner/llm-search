@@ -7,7 +7,7 @@ from src.shared.services.search_validation_service import ValidationResult
 
 from typing import List
 
-from src.shared.types import SearchResponse
+from src.shared.config.types import SearchResponse
 
 
 class User:

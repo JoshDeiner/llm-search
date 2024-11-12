@@ -1,6 +1,6 @@
 from typing import List
 import logging
-from src.utils.create_document import create_document
+from src.shared.utils.create_document import create_document
 
 
 class DocumentPipeline:

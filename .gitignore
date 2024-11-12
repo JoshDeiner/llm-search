@@ -5,4 +5,5 @@ monkeytype.sqlite3
 
 .mypy_*
 *__pycache__*
+*.pyc
 pipeline_output.md
