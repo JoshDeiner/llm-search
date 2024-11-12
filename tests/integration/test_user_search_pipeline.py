@@ -1,5 +1,5 @@
 import pytest
-from src.users.factory import create_user_service
+from src.features.users.factory import create_user_service
 
 
 # Mock the WebSearchService to provide consistent test data for the pipeline

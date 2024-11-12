@@ -4,7 +4,7 @@ from src.core_pipeline.stages.search_execution import retry_with_validation
 from src.core_pipeline.stages.search_execution import fetch_web_results
 from src.core_pipeline.stages.search_execution import validate_search_results
 
-from src.users.models.user import User
+from src.features.users.models.user import User
 
 # Fixture for the user_service mock
 @pytest.fixture

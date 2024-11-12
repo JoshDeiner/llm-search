@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from src.core_pipeline.execute_pipeline import execute_pipeline
-from src.users.factory import create_user_service
+from src.features.users.factory import create_user_service
 
 # Configure logging with timestamp
 logging.basicConfig(

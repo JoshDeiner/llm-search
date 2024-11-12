@@ -1,5 +1,5 @@
 import logging
-from src.llm_core.llm_core import LLMCore
+from src.features.llm_core.llm_core import LLMCore
 
 
 def summarize_results(llm_core: LLMCore, results_text: str) -> str:

@@ -1,9 +1,7 @@
 import logging
 import pprint
 
-from typing import Union
-
-from src.llm_core.llm_core import LLMCore
+from src.features.llm_core.llm_core import LLMCore
 
 
 def validate_summary(llm_core: LLMCore, results_text: str) -> bool:

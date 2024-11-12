@@ -7,9 +7,9 @@ from src.core_pipeline.stages.search_execution import (
 )
 from src.core_pipeline.stages.summarization import summarize_results
 from src.core_pipeline.stages.document import DocumentPipeline
-from src.llm_core.llm_provider import LLMProvider
+from src.features.llm_core.llm_provider import LLMProvider
 from src.core_pipeline.stages.search_execution import retry_with_validation
-from src.users.models.user import User
+from src.features.users.models.user import User
 
 def extract_works_cited(results):
     works_cited = []

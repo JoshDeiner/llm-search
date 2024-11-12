@@ -1,9 +1,9 @@
 # llm_core/llm_provider.py
 
 
-from src.llm_core.gemini_llm import GeminiLLM
-from src.llm_core.llama_llm import OllamaLLM
-from src.llm_core.singleton_util import get_instance
+from src.features.llm_core.gemini_llm import GeminiLLM
+from src.features.llm_core.llama_llm import OllamaLLM
+from src.features.llm_core.singleton_util import get_instance
 
 
 def LLMProvider(model_name: str = "gemini"):

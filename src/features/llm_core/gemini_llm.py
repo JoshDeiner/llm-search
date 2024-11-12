@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import google.generativeai as genai
 
-from src.llm_core.llm_core import LLMCore
+from src.features.llm_core.llm_core import LLMCore
 
 load_dotenv()  # Load environment variables
 
