@@ -14,6 +14,7 @@ def test_data():
     return summary, topic, works_cited, pipeline
 
 
+@pytest.mark.unit
 def test_title_generation(test_data):
     """
     Test that the title is correctly generated based on the topic.
@@ -23,6 +24,7 @@ def test_title_generation(test_data):
     assert pipeline.title == expected_title
 
 
+@pytest.mark.unit
 def test_summary_property(test_data):
     """
     Test that the summary property returns the correct summary string.
@@ -31,6 +33,7 @@ def test_summary_property(test_data):
     assert pipeline.summary == summary
 
 
+@pytest.mark.unit
 def test_save_to_file_with_works_cited(mocker, test_data):
     """
     Test saving to file with "Works Cited" included.
@@ -57,6 +60,7 @@ def test_save_to_file_with_works_cited(mocker, test_data):
     )
 
 
+@pytest.mark.unit
 def test_save_to_file_without_works_cited(mocker, test_data):
     """
     Test saving to file without "Works Cited".
@@ -83,6 +87,7 @@ def test_save_to_file_without_works_cited(mocker, test_data):
     )
 
 
+@pytest.mark.unit
 def test_save_to_file_permission_error(mocker, test_data, caplog):
     """
     Test that a PermissionError during save is handled gracefully.
@@ -98,6 +103,7 @@ def test_save_to_file_permission_error(mocker, test_data, caplog):
     assert "Permission denied" in caplog.text
 
 
+@pytest.mark.unit
 def test_invalid_file_extension(test_data, caplog):
     """
     Test handling of unsupported file extensions.

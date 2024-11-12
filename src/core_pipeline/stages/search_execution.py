@@ -3,37 +3,27 @@ from requests.exceptions import RequestException
 
 from src.core_pipeline.validators.result_validator import validate_search_engine_results
 from src.core_pipeline.stages.data_processing import process_results
-from src.user_service.user import User
-
-from numpy import bool_
-from numpy import float64
+from src.users.models.user import User
 
 from typing import Callable
 from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Union
-
-
 from typing import Tuple
 from typing import TypeVar
 
-NumericStrBool = Union[
-    float, bool, float, str
-]  # Replace numpy.float64 and numpy.bool_ with float and bool
+# Type aliases
+NumericStrBool = Union[float, bool, str]
 SearchResult = Dict[str, Union[str, List[Dict[str, NumericStrBool]]]]
-
-FetchFunction = Callable[
-    ..., Optional[SearchResult]
-]  # Type for functions that fetch search results
+FetchFunction = Callable[..., Optional[SearchResult]]
+AllResults = List[Dict[str, Optional[str]]]  # Type alias for all_results
 
 # Define a TypeVar to represent any argument types that the function may accept
 T = TypeVar("T")
 
 
-def fetch_web_results(
-    user_service: User, search_term: str
-) -> Optional[Union[SearchResult, List[str]]]:
+def fetch_web_results(user_service: User, search_term: str) -> Optional[SearchResult]:
     """
     Fetches raw web search results without validation.
 
@@ -47,11 +37,10 @@ def fetch_web_results(
     try:
         # Perform the search
         search_data: SearchResult = user_service.search(search_term)
-
         return search_data
     except RequestException as e:
         logging.error(f"Network error during search execution: {e}", exc_info=True)
-        return None  # Return None to indicate network error
+        return None
 
 
 def validate_search_results(search_data: SearchResult) -> Optional[str]:
@@ -64,16 +53,28 @@ def validate_search_results(search_data: SearchResult) -> Optional[str]:
     Returns:
     - Processed results text ready for summarization, or None if no valid results.
     """
-    # Validate the search results
     validated_results = validate_search_engine_results(search_data)
 
-    # Process validated results for summarization
     if not validated_results:
         logging.warning("No valid results after validation.")
         return None
 
     processed_text: str = process_results(validated_results)
     return processed_text
+
+
+def extract_works_cited(all_results: AllResults) -> List[str]:
+    """
+    Extracts works cited entries from search results.
+
+    :param all_results: List of result dictionaries containing 'title', 'link', and 'snippet'.
+    :return: List of formatted citation strings.
+    """
+    return [
+        f"{entry.get('title', 'No Title')}: {entry.get('link', 'No Link') or 'No Link'}"
+        for entry in all_results
+        if isinstance(entry, dict) and entry.get("snippet")
+    ]
 
 
 def retry_with_validation(
@@ -96,6 +97,7 @@ def retry_with_validation(
         results = func(*args)
         if results and "No results found" not in results:
             logging.info("Validation succeeded.")
+            logging.debug(f"Results returned: {results}")  # Debug log
             return results
         else:
             logging.warning(

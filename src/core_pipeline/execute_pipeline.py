@@ -9,31 +9,18 @@ from src.core_pipeline.stages.summarization import summarize_results
 from src.core_pipeline.stages.document import DocumentPipeline
 from src.llm_core.llm_provider import LLMProvider
 from src.core_pipeline.stages.search_execution import retry_with_validation
-from src.services.search_engine_client import SearchEngineClient
-from src.user_service.user import User
+from src.users.models.user import User
 
-from typing import Any
-from typing import List
-
-
-def extract_works_cited(all_results: Any) -> List[str]:
-    """
-    Extracts works cited entries from search results.
-
-    :param all_results: List of result dictionaries containing 'title' and 'link'.
-    :return: List of formatted citation strings.
-    """
+def extract_works_cited(results):
     works_cited = []
-    for entry in all_results:
-        if not isinstance(entry, dict):
-            logging.warning(f"Skipping invalid result entry: {entry}")
-            continue
-        title = entry.get("title", "No Title")
-        link = entry.get("link", "No Link")
-        citation = f"{title}: {link}"
-        works_cited.append(citation)
+    for result in results:
+        if isinstance(result, dict) and "title" in result:
+            title = result["title"]
+            link = result.get("link", "No Link") or "No Link"
+            works_cited.append(f"{title}: {link}")
+        else:
+            logging.warning("Skipping invalid result entry: %s", result)
     return works_cited
-
 
 def execute_pipeline(user_service: User, search_term: str) -> None:
     """
@@ -67,6 +54,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     if summary is None:
         logging.error("Summary generation failed.")
         return
+    # add error handling for if summary is some form of incorrect of make summarize_results do it
 
     logging.info("Summary generation succeeded.")
     logging.info(f"Final Summary:\n{summary}")

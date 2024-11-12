@@ -28,14 +28,18 @@ class GeminiLLM(LLMCore):
                 "GeminiLLM instance already exists. Use get_instance() instead."
             )
 
-    @classmethod
-    def get_instance(cls) -> "GeminiLLM":
-        """Singleton access method for the GeminiLLM class."""
-        if cls._instance is None:
-            cls._instance = GeminiLLM()
-        return cls._instance
+    def generate_text(self, prompt: str) -> str:
+        """Generates text based on the provided prompt."""
+        response = self.model.generate_content(prompt)
+        response_text: str = response.text
+        return response_text
+
+    def summarize_text(self, text: str) -> str:
+        """Summarizes the given text."""
+        summary_prompt = f"Summarize the following:\n\n{text}"
+        return self.generate_text(summary_prompt)
 
     @property
-    def model_name(self):
+    def model_name(self) -> str:
         """Getter for the model name if access is needed."""
         return self._model_name

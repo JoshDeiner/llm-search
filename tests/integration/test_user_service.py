@@ -1,11 +1,5 @@
 import pytest
-from src.user_service.user import User
-from src.services.search_term_service import SearchTermService
-from src.services.web_search_service import WebSearchService
-from src.services.search_validation_service import (
-    SearchValidationService,
-    ValidationResult,
-)
+from src.users.models.user import User
 
 
 @pytest.fixture
@@ -15,11 +9,10 @@ def mock_user_service(monkeypatch):
     """
 
     # Mock dependencies
-    class MockSearchTermService:
+    class MockWebSearchService:
         def create_search_term(self, user_input):
             return "test query"
 
-    class MockWebSearchService:
         def fetch_results(self, search_term):
             return [{"snippet": "Result 1 snippet"}, {"snippet": "Result 2 snippet"}]
 
@@ -28,9 +21,6 @@ def mock_user_service(monkeypatch):
             return snippet == "Result 1 snippet"  # Validate only the first snippet
 
     # Replace the real services with mocks
-    monkeypatch.setattr(
-        "src.services.search_term_service.SearchTermService", MockSearchTermService
-    )
     monkeypatch.setattr(
         "src.services.web_search_service.WebSearchService", MockWebSearchService
     )
@@ -41,7 +31,6 @@ def mock_user_service(monkeypatch):
 
     # Create and return the User instance with mocked services
     return User(
-        search_term_service=MockSearchTermService(),
         web_search_service=MockWebSearchService(),
         validation_service=MockSearchValidationService(),
     )
@@ -77,11 +66,10 @@ def test_user_search_empty_results(monkeypatch):
     """
 
     # Arrange
-    class MockSearchTermService:
+    class MockWebSearchService:
         def create_search_term(self, user_input):
             return "test query"
 
-    class MockWebSearchService:
         def fetch_results(self, search_term):
             return []  # Return no results
 
@@ -90,9 +78,6 @@ def test_user_search_empty_results(monkeypatch):
             return False
 
     # Replace the real services with mocks
-    monkeypatch.setattr(
-        "src.services.search_term_service.SearchTermService", MockSearchTermService
-    )
     monkeypatch.setattr(
         "src.services.web_search_service.WebSearchService", MockWebSearchService
     )
@@ -103,7 +88,6 @@ def test_user_search_empty_results(monkeypatch):
 
     # Create the User instance
     user_service = User(
-        search_term_service=MockSearchTermService(),
         web_search_service=MockWebSearchService(),
         validation_service=MockSearchValidationService(),
     )

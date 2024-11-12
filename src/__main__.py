@@ -4,10 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from src.core_pipeline.execute_pipeline import execute_pipeline
-from src.user_service.factory import get_user_service
-from src.user_service.user import (
-    User,
-)  # Assuming User is the type returned by get_user_service
+from src.users.factory import create_user_service
 
 # Configure logging with timestamp
 logging.basicConfig(
@@ -16,9 +13,7 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-SEARCH_TERM_GLOBAL: str = (
-    "top 3 stories breaking news post USA election during November 2024"
-)
+SEARCH_TERM_GLOBAL: str = "who do the giants play november 10 in germany"
 
 
 def cli_entry() -> None:
@@ -44,7 +39,7 @@ def cli_entry() -> None:
 
     # Run the main pipeline with parsed search term
     logging.info("Starting search and summarization process")
-    execute_pipeline(get_user_service(), args.search_term)
+    execute_pipeline(create_user_service(), args.search_term)
     logging.info("Search and summarization process completed.")
 
 
