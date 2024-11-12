@@ -27,16 +27,6 @@ class LLMCore:
         keywords = self.kw_model.extract_keywords(text, top_n=top_n)
         return [word for word, score in keywords]
 
-    def generate_text(self, prompt: str) -> str:
-        """Generates text based on the provided prompt."""
-        response = self.model.generate_content(prompt)
-        return response.text
-
-    def summarize_text(self, text: str) -> str:
-        """Summarizes the given text."""
-        summary_prompt = f"Summarize the following:\n\n{text}"
-        return self.generate_text(summary_prompt)
-
     def synonym_match_score(self, summary: str, key_terms: List[str]) -> float:
         """Calculates a score for key term presence in summary using synonym/context matching."""
         if not key_terms:

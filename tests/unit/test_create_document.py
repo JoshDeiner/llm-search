@@ -46,26 +46,6 @@ def test_create_document_without_title(tmp_path):
     ), "File content does not match the expected output."
 
 
-# def test_create_document_creates_missing_directories(tmp_path):
-#     """
-#     Test create_document automatically creates missing directories.
-#     """
-#     # Arrange
-#     nested_path = tmp_path / "nested" / "output.md"
-#     title = "Test Title"
-#     content = "This is the test content."
-
-#     # Act
-#     create_document(filename=str(nested_path), title=title, content=content)
-
-#     # Assert
-#     assert nested_path.exists(), "File was not created in the nested directory."
-#     with open(nested_path, "r", encoding="utf-8") as f:
-#         written_content = f.read()
-#     expected_content = f"# {title}\n\n{content}"
-#     assert written_content == expected_content, "File content does not match the expected output."
-
-
 def test_create_document_creates_missing_directories(tmp_path):
     """
     Test create_document automatically creates missing directories.
