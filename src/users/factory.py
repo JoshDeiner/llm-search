@@ -1,5 +1,5 @@
-from src.services.web_search_service import WebSearchService
-from src.services.search_validation_service import SearchValidationService
+from src.shared.services.web_search_service import WebSearchService
+from src.shared.services.search_validation_service import SearchValidationService
 from src.users.models.user import User
 from src.constants import WEB_SEARCH_URL
 

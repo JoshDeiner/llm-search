@@ -5,7 +5,7 @@ import logging
 from typing import List
 
 from src.constants import WEB_SEARCH_URL
-from src.services.search_engine_service import SearchEngineService
+from src.shared.services.search_engine_service import SearchEngineService
 
 class WebSearchService:
     def __init__(self, web_search_url: str = WEB_SEARCH_URL) -> None:

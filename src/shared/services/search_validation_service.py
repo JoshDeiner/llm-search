@@ -1,4 +1,4 @@
-# services/search_validation_service.py
+# src/shared/services/search_validation_service.py
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity

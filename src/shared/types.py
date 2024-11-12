@@ -3,7 +3,7 @@ from typing import List
 from typing import Dict
 from typing import Union
 
-from src.services.search_validation_service import ValidationResult
+from src.shared.services.search_validation_service import ValidationResult
 
 SearchEngineResults = str
 
