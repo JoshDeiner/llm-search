@@ -1,8 +1,8 @@
 import logging
 from requests.exceptions import RequestException
 
-from src.core_pipeline.validators.result_validator import validate_search_engine_results
-from src.core_pipeline.stages.data_processing import process_results
+from src.features.core_pipeline.validators.result_validator import validate_search_engine_results
+from src.features.core_pipeline.stages.data_processing import process_results
 from src.features.users.models.user import User
 
 from typing import Callable

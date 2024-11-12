@@ -3,7 +3,7 @@ import argparse
 import os
 from dotenv import load_dotenv
 
-from src.core_pipeline.execute_pipeline import execute_pipeline
+from src.features.core_pipeline.execute_pipeline import execute_pipeline
 from src.features.users.factory import create_user_service
 
 # Configure logging with timestamp

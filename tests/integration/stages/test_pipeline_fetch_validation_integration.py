@@ -1,8 +1,8 @@
 import pytest
 import logging
-from src.core_pipeline.stages.search_execution import retry_with_validation
-from src.core_pipeline.stages.search_execution import fetch_web_results
-from src.core_pipeline.stages.search_execution import validate_search_results
+from src.features.core_pipeline.stages.search_execution import retry_with_validation
+from src.features.core_pipeline.stages.search_execution import fetch_web_results
+from src.features.core_pipeline.stages.search_execution import validate_search_results
 
 from src.features.users.models.user import User
 
@@ -16,7 +16,7 @@ def user_service(mocker):
 @pytest.mark.integration
 def test_fetch_failure(mocker, user_service, caplog):
     # Simulate a fetch failure (returns None after retries)
-    mock_fetch = mocker.patch('src.core_pipeline.stages.search_execution.fetch_web_results', return_value=None)
+    mock_fetch = mocker.patch('src.features.core_pipeline.stages.search_execution.fetch_web_results', return_value=None)
 
     # Simulating the retry with validation block (steps 1 and 2)
     raw_search_data = retry_with_validation(mock_fetch, user_service, "Test Search Term")

@@ -1,5 +1,5 @@
 import pytest
-from src.core_pipeline.execute_pipeline import extract_works_cited, summarize_results
+from src.features.core_pipeline.execute_pipeline import extract_works_cited, summarize_results
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def mock_llm_provider(monkeypatch):
 
     mock_instance = MockLLMProvider()
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.LLMProvider",
+        "src.features.core_pipeline.execute_pipeline.LLMProvider",
         lambda *args, **kwargs: mock_instance,
     )
     return mock_instance
@@ -42,7 +42,7 @@ def mock_document_pipeline(monkeypatch):
         return MockDocumentPipeline(summary, topic, works_cited)
 
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.DocumentPipeline", mock_pipeline
+        "src.features.core_pipeline.execute_pipeline.DocumentPipeline", mock_pipeline
     )
     return mock_pipeline
 

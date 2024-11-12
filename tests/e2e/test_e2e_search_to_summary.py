@@ -2,8 +2,8 @@
 import pytest
 import logging
 from src.features.users.factory import create_user_service
-from src.core_pipeline.stages.data_processing import process_results
-from src.core_pipeline.stages.summarization import summarize_results
+from src.features.core_pipeline.stages.data_processing import process_results
+from src.features.core_pipeline.stages.summarization import summarize_results
 from src.features.llm_core.llm_provider import LLMProvider
 
 

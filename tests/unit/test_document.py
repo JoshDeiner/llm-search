@@ -1,5 +1,5 @@
 import pytest
-from src.core_pipeline.stages.document import DocumentPipeline
+from src.features.core_pipeline.stages.document import DocumentPipeline
 
 
 @pytest.fixture
@@ -40,7 +40,7 @@ def test_save_to_file_with_works_cited(mocker, test_data):
     """
     _, _, _, pipeline = test_data
     mock_create_document = mocker.patch(
-        "src.core_pipeline.stages.document.create_document"
+        "src.features.core_pipeline.stages.document.create_document"
     )
 
     file_name = "test_output"
@@ -68,7 +68,7 @@ def test_save_to_file_without_works_cited(mocker, test_data):
     summary, topic, _, _ = test_data
     pipeline_no_citations = DocumentPipeline(summary=summary, topic=topic)
     mock_create_document = mocker.patch(
-        "src.core_pipeline.stages.document.create_document"
+        "src.features.core_pipeline.stages.document.create_document"
     )
 
     file_name = "test_output_no_citations"
@@ -94,7 +94,7 @@ def test_save_to_file_permission_error(mocker, test_data, caplog):
     """
     _, _, _, pipeline = test_data
     mocker.patch(
-        "src.core_pipeline.stages.document.create_document", side_effect=PermissionError
+        "src.features.core_pipeline.stages.document.create_document", side_effect=PermissionError
     )
 
     pipeline.save_to_file(file_name="restricted_output")

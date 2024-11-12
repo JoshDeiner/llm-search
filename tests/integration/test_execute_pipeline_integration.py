@@ -1,5 +1,5 @@
 import pytest
-from src.core_pipeline.execute_pipeline import execute_pipeline
+from src.features.core_pipeline.execute_pipeline import execute_pipeline
 
 
 class MockUserService:
@@ -73,7 +73,7 @@ def mock_pipeline_and_stages(monkeypatch):
     """
     # Mock DocumentPipeline
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.DocumentPipeline", MockDocumentPipeline
+        "src.features.core_pipeline.execute_pipeline.DocumentPipeline", MockDocumentPipeline
     )
 
     # Mock validate_search_results
@@ -81,7 +81,7 @@ def mock_pipeline_and_stages(monkeypatch):
         return "Validated text for summarization."
 
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.validate_search_results",
+        "src.features.core_pipeline.execute_pipeline.validate_search_results",
         mock_validate_search_results,
     )
 
@@ -90,7 +90,7 @@ def mock_pipeline_and_stages(monkeypatch):
         return "This is a generated summary."
 
     monkeypatch.setattr(
-        "src.core_pipeline.execute_pipeline.summarize_results", mock_summarize_results
+        "src.features.core_pipeline.execute_pipeline.summarize_results", mock_summarize_results
     )
 
 
@@ -101,7 +101,7 @@ def test_execute_pipeline_integration(
     """
     Integration test for the execute_pipeline function.
     """
-    from src.core_pipeline.execute_pipeline import execute_pipeline
+    from src.features.core_pipeline.execute_pipeline import execute_pipeline
 
     with caplog.at_level("INFO"):
         execute_pipeline(mock_user_service, "test search term")

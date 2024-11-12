@@ -1,14 +1,14 @@
 # core_pipeline/execute_pipeline.py
 
 import logging
-from src.core_pipeline.stages.search_execution import (
+from src.features.core_pipeline.stages.search_execution import (
     fetch_web_results,
     validate_search_results,
 )
-from src.core_pipeline.stages.summarization import summarize_results
-from src.core_pipeline.stages.document import DocumentPipeline
+from src.features.core_pipeline.stages.summarization import summarize_results
+from src.features.core_pipeline.stages.document import DocumentPipeline
 from src.features.llm_core.llm_provider import LLMProvider
-from src.core_pipeline.stages.search_execution import retry_with_validation
+from src.features.core_pipeline.stages.search_execution import retry_with_validation
 from src.features.users.models.user import User
 
 def extract_works_cited(results):
