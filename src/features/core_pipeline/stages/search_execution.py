@@ -2,7 +2,6 @@ import logging
 from requests.exceptions import RequestException
 
 from src.features.core_pipeline.validators.result_validator import validate_search_engine_results
-from src.features.core_pipeline.stages.data_processing import process_results
 from src.features.users.models.user import User
 
 from typing import Callable
@@ -21,6 +20,21 @@ AllResults = List[Dict[str, Optional[str]]]  # Type alias for all_results
 
 # Define a TypeVar to represent any argument types that the function may accept
 T = TypeVar("T")
+
+def process_results(search_results: str) -> str:
+    """
+    Processes raw search results for summarization, performing any necessary
+    cleaning or transformations.
+
+    Parameters:
+    search_results (list): The list of search engine results to process.
+
+    Returns:
+    str: A single string with all results concatenated for summarization.
+    """
+    # Example: combine the results into a single string for summarization
+    processed_results = "\n\n".join(search_results)
+    return processed_results
 
 
 def fetch_web_results(user_service: User, search_term: str) -> Optional[SearchResult]:

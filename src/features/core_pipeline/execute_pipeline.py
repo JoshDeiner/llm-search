@@ -6,7 +6,7 @@ from src.features.core_pipeline.stages.search_execution import (
     validate_search_results,
 )
 from src.features.core_pipeline.stages.summarization import summarize_results
-from src.features.core_pipeline.stages.document import DocumentPipeline
+from src.features.core_pipeline.stages.document_service import DocumentPipeline
 from src.features.llm_core.llm_provider import LLMProvider
 from src.features.core_pipeline.stages.search_execution import retry_with_validation
 from src.features.users.models.user import User

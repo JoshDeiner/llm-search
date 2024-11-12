@@ -1,7 +1,14 @@
 from typing import List
+from src.shared.utils.document_factory import DocumentFactory
 import logging
-from src.shared.utils.create_document import create_document
 
+class DocumentService:
+    def __init__(self, file_type: str):
+        self._file_type = file_type
+
+    def create_document(self, filename: str, title: str, content: str) -> None:
+        document_creator = DocumentFactory.create_document_creator(self._file_type, filename, title, content)
+        document_creator.create_document()
 
 class DocumentPipeline:
     """
@@ -9,17 +16,19 @@ class DocumentPipeline:
     This includes managing summaries, generating titles, and saving content to a text file.
     """
 
-    def __init__(self, summary: str, topic: str, works_cited: List[str] = []):
+    def __init__(self, summary: str, topic: str, file_type: str, works_cited: List[str] = []):
         """
-        Initialize the pipeline with a summary string, a topic, and optional works cited references.
+        Initialize the pipeline with a summary string, a topic, a file type, and optional works cited references.
 
         :param summary: A string summary provided to the pipeline.
         :param topic: The main topic of the document.
+        :param file_type: The type of file to create (e.g., "markdown").
         :param works_cited: Optional list of works cited references.
         """
         self._summary = summary
         self._topic = topic
         self._title = f"Summary of {topic}"
+        self._document_service = DocumentService(file_type)
         self._works_cited = works_cited or []
 
     @property
@@ -32,9 +41,7 @@ class DocumentPipeline:
         """Getter for the title attribute."""
         return self._title
 
-    def save_to_file(
-        self, file_name: str = "output", file_extension: str = ".md"
-    ) -> None:
+    def save_to_file(self, file_name: str = "output", file_extension: str = ".md") -> None:
         """
         Saves the generated document content to a text file, organized by sections.
 
@@ -68,11 +75,9 @@ class DocumentPipeline:
             logging.error(f"Unsupported file extension: {file_extension}")
             return
 
-        # Try to save the document using create_document utility
+        # Try to save the document using the injected DocumentService instance
         try:
-            create_document(
-                full_file_name, document_content
-            )  # Pass content to utility function
+            self._document_service.create_document(full_file_name, self._title, document_content)
             print(f"Document saved to {full_file_name}")
         except PermissionError:
             logging.error(f"Permission denied: Cannot write to file {full_file_name}")
