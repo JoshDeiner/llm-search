@@ -1,9 +1,9 @@
 from typing import List
-from typing import Dict
-
 
 from src.shared.config.constants import WEB_SEARCH_URL
 from langchain_community.utilities import SearxSearchWrapper
+
+from src.shared.config.types import SearchResult
 
 
 class SearchEngineService:
@@ -20,9 +20,10 @@ class SearchEngineService:
         self._search_wrapper = SearxSearchWrapper(searx_host=host, k=num_results)
         self._engines = engines
 
-    def run(self, query: str) -> List[Dict]:
+    def run(self, query: str) -> List[SearchResult]:
         """Perform a search and return collected results."""
-        results = self._search_wrapper.results(  # Use the correct private attribute
+        results: List[SearchResult] = self._search_wrapper.results(
             query=query, num_results=self._num_results, engines=self._engines
         )
+
         return results

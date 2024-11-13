@@ -28,7 +28,8 @@ class SearchValidationService:
     def cosine_similarity_score(self, query: str, result_text: str) -> float:
         tfidf_matrix = self.tfidf_vectorizer.fit_transform([query, result_text])
         similarity_matrix = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])
-        return similarity_matrix[0][0]
+        cosine_similarity_score: float = similarity_matrix[0][0]
+        return cosine_similarity_score
 
     def semantic_similarity_score(self, query: str, result_text: str) -> float:
         query_embedding = self.semantic_model.encode(query, convert_to_tensor=True)
@@ -36,7 +37,8 @@ class SearchValidationService:
             result_text, convert_to_tensor=True
         )
         similarity = util.cos_sim(query_embedding, result_embedding)
-        return similarity.item()
+        similarity_score: float = similarity.item()
+        return similarity_score
 
     def keyword_coverage_score(
         self, query: str, result_text: str, top_n: int = 5
