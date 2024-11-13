@@ -90,7 +90,8 @@ def mock_pipeline_and_stages(monkeypatch):
         return "This is a generated summary."
 
     monkeypatch.setattr(
-        "src.features.core_pipeline.execute_pipeline.summarize_results", mock_summarize_results
+        "src.features.core_pipeline.execute_pipeline.summarize_results",
+        mock_summarize_results,
     )
 
 

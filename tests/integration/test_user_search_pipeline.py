@@ -33,13 +33,12 @@ def test_user_search_pipeline(user_service):
     normalized_search_term = search_term.lower()
     search_data = user_service.search(search_term)
 
-
     # Verify the pipeline structure and integration
     assert "search_term" in search_data
 
     normalized_data_search_term = search_data["search_term"].lower()
     assert normalized_data_search_term == normalized_search_term
-    
+
     assert "web_results" in search_data
     assert isinstance(search_data["web_results"], list)
     assert len(search_data["web_results"]) > 0
@@ -53,4 +52,3 @@ def test_user_search_pipeline(user_service):
         if result.get("is_valid", False)
     ]
     assert len(validated_results) > 0  # At least one result should be valid
-

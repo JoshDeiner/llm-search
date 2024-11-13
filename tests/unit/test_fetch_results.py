@@ -6,7 +6,9 @@ from src.shared.config.constants import WEB_SEARCH_URL
 @pytest.fixture
 def search_service(monkeypatch):
     # Override WEB_SEARCH_URL to use a mock domain, avoiding real network endpoints during testing
-    monkeypatch.setattr("src.shared.config.constants.WEB_SEARCH_URL", "http://mockdomain.com")
+    monkeypatch.setattr(
+        "src.shared.config.constants.WEB_SEARCH_URL", "http://mockdomain.com"
+    )
 
     # Initialize the WebSearchService with the (mocked) constant
     service = WebSearchService(web_search_url=WEB_SEARCH_URL)

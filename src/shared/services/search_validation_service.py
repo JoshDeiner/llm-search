@@ -7,6 +7,7 @@ from sentence_transformers import util
 from keybert import KeyBERT
 from typing import TypedDict
 
+
 class ValidationResult(TypedDict):
     score: float
     is_valid: bool
@@ -32,7 +33,9 @@ class SearchValidationService:
 
     def semantic_similarity_score(self, query: str, result_text: str) -> float:
         query_embedding = self.semantic_model.encode(query, convert_to_tensor=True)
-        result_embedding = self.semantic_model.encode(result_text, convert_to_tensor=True)
+        result_embedding = self.semantic_model.encode(
+            result_text, convert_to_tensor=True
+        )
         similarity = util.cos_sim(query_embedding, result_embedding)
         similarity_score: float = similarity.item()
         return similarity_score

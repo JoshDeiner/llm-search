@@ -1,7 +1,9 @@
 import logging
 from requests.exceptions import RequestException
 
-from src.features.core_pipeline.validators.result_validator import validate_search_engine_results
+from src.features.core_pipeline.validators.result_validator import (
+    validate_search_engine_results,
+)
 from src.features.users.models.user import User
 
 from typing import Callable
@@ -20,6 +22,7 @@ AllResults = List[Dict[str, Optional[str]]]  # Type alias for all_results
 
 # Define a TypeVar to represent any argument types that the function may accept
 T = TypeVar("T")
+
 
 def process_results(search_results: str) -> str:
     """

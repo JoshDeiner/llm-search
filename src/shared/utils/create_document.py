@@ -1,5 +1,6 @@
 import os
 
+
 class DocumentCreator:
     def __init__(self, filename: str, title: str = "", content: str = ""):
         self.filename = filename

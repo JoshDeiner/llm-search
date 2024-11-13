@@ -1,8 +1,11 @@
 from src.shared.utils.create_document import DocumentCreator
 
+
 class DocumentFactory:
     @staticmethod
-    def create_document_creator(file_type: str, filename: str, title: str = "", content: str = ""):
+    def create_document_creator(
+        file_type: str, filename: str, title: str = "", content: str = ""
+    ):
         normalized_file_type = DocumentFactory._normalize_file_type(file_type)
         if normalized_file_type == "md":
             return DocumentCreator(filename, title, content)

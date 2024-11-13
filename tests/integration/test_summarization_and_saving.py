@@ -1,5 +1,8 @@
 import pytest
-from src.features.core_pipeline.execute_pipeline import extract_works_cited, summarize_results
+from src.features.core_pipeline.execute_pipeline import (
+    extract_works_cited,
+    summarize_results,
+)
 
 
 @pytest.fixture

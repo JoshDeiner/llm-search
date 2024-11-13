@@ -13,6 +13,7 @@ from src.features.llm_core.llm_provider import LLMProvider
 from src.features.core_pipeline.stages.search_execution import retry_with_validation
 from src.features.users.models.user import User
 
+
 def extract_works_cited(results: List[SearchResult]) -> List[str]:
     works_cited = []
     for result in results:
@@ -24,6 +25,7 @@ def extract_works_cited(results: List[SearchResult]) -> List[str]:
             logging.warning("Skipping invalid result entry: %s", result)
     print("Works Cited:", works_cited)
     return works_cited
+
 
 def execute_pipeline(user_service: User, search_term: str) -> None:
     """

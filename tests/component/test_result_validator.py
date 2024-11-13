@@ -1,5 +1,7 @@
 import pytest
-from src.features.core_pipeline.validators.result_validator import validate_search_engine_results
+from src.features.core_pipeline.validators.result_validator import (
+    validate_search_engine_results,
+)
 
 
 def test_validate_search_engine_results():

@@ -1,9 +1,9 @@
 from pathlib import Path
+
 # from typing import Callable
 import pytest
 from pytest_mock.plugin import _mocker
 from src.features.core_pipeline.stages.document_service import DocumentService
-
 
 
 def test_create_document_with_title_and_content(tmp_path: Path):
@@ -17,7 +17,9 @@ def test_create_document_with_title_and_content(tmp_path: Path):
 
     # Act
     document_service = DocumentService(file_type="md")
-    document_service.create_document(filename=str(file_path), title=title, content=content)
+    document_service.create_document(
+        filename=str(file_path), title=title, content=content
+    )
     # document_creator = DocumentCreator(filename=str(file_path), title=title, content=content)
     # document_creator.create_document()
 
@@ -29,6 +31,7 @@ def test_create_document_with_title_and_content(tmp_path: Path):
     assert (
         written_content == expected_content
     ), "File content does not match the expected output."
+
 
 # def test_create_document_without_title(tmp_path: Path):
 #     """
