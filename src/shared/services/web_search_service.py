@@ -6,6 +6,8 @@ from typing import List
 from src.shared.config.constants import WEB_SEARCH_URL
 from src.shared.services.search_engine_service import SearchEngineService
 
+from src.shared.config.types import SearchResult
+
 class WebSearchService:
     def __init__(self, web_search_url: str = WEB_SEARCH_URL) -> None:
         self.web_search_url = web_search_url
@@ -20,8 +22,9 @@ class WebSearchService:
         sanitized_input = self.sanitize_input(user_input)
         return sanitized_input
 
-    def fetch_results(self, search_term: str) -> List[dict]:
+    def fetch_results(self, search_term: str) -> List[SearchResult]:
         """Fetches search results for a given search term using the search engine service."""
         logging.info(f"Executing search query: {search_term}")
         # Use the search service to run the search query
-        return self.se_service.run(search_term)
+        results: List[SearchResult] = self.se_service.run(search_term)
+        return results

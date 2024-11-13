@@ -4,11 +4,16 @@ import logging
 
 class DocumentService:
     def __init__(self, file_type: str):
-        self._file_type = file_type
+        self._file_type = self._normalize_file_type(file_type)
+
+
+    def _normalize_file_type(self, file_type: str) -> str:
+        return DocumentFactory._normalize_file_type(file_type)
 
     def create_document(self, filename: str, title: str, content: str) -> None:
         document_creator = DocumentFactory.create_document_creator(self._file_type, filename, title, content)
         document_creator.create_document()
+
 
 class DocumentPipeline:
     """
@@ -40,6 +45,8 @@ class DocumentPipeline:
     def title(self) -> str:
         """Getter for the title attribute."""
         return self._title
+    
+    
 
     def save_to_file(self, file_name: str = "output", file_extension: str = ".md") -> None:
         """

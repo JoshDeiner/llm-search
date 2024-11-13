@@ -73,7 +73,7 @@ def mock_pipeline_and_stages(monkeypatch):
     """
     # Mock DocumentPipeline
     monkeypatch.setattr(
-        "src.features.core_pipeline.execute_pipeline.DocumentPipeline", MockDocumentPipeline
+        "src.features.core_pipeline.stages.document_service", MockDocumentPipeline
     )
 
     # Mock validate_search_results

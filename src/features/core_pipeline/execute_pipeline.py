@@ -1,6 +1,8 @@
 # core_pipeline/execute_pipeline.py
 
 import logging
+from typing import List
+from src.shared.config.types import SearchResult
 from src.features.core_pipeline.stages.search_execution import (
     fetch_web_results,
     validate_search_results,
@@ -11,7 +13,7 @@ from src.features.llm_core.llm_provider import LLMProvider
 from src.features.core_pipeline.stages.search_execution import retry_with_validation
 from src.features.users.models.user import User
 
-def extract_works_cited(results):
+def extract_works_cited(results: List[SearchResult]) -> List[str]:
     works_cited = []
     for result in results:
         if isinstance(result, dict) and "title" in result:
@@ -20,6 +22,7 @@ def extract_works_cited(results):
             works_cited.append(f"{title}: {link}")
         else:
             logging.warning("Skipping invalid result entry: %s", result)
+    print("Works Cited:", works_cited)
     return works_cited
 
 def execute_pipeline(user_service: User, search_term: str) -> None:
@@ -68,6 +71,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
         document_pipeline = DocumentPipeline(
             summary=summary,
             topic=search_term,
+            file_type="md",
             works_cited=works_cited,
         )
         document_pipeline.save_to_file(
