@@ -1,7 +1,10 @@
 # llm_core/singleton_util.py
 
 
-def get_instance(cls, *args, **kwargs):
+from src.features.llm_core.llm_core import LLMCore
+
+
+def singleton(cls, *args, **kwargs):
     """
     Generic Singleton access method.
     Ensures only one instance of the given class is created.

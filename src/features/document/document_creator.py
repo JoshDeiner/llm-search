@@ -1,8 +1,12 @@
+
 import os
 
 
 class DocumentCreator:
-    def __init__(self, filename: str, title: str = "", content: str = ""):
+    def __init__(self, file_type: str, filename: str, title: str = "", content: str = "") -> None:
+        if file_type not in ["markdown", "md"]:
+            raise ValueError(f"Unsupported file type: {file_type}")
+        self.file_type = file_type
         self.filename = filename
         self.title = title
         self.content = content

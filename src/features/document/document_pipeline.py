@@ -1,20 +1,7 @@
 from typing import List
-from src.shared.utils.document_factory import DocumentFactory
 import logging
 
-
-class DocumentService:
-    def __init__(self, file_type: str):
-        self._file_type = self._normalize_file_type(file_type)
-
-    def _normalize_file_type(self, file_type: str) -> str:
-        return DocumentFactory._normalize_file_type(file_type)
-
-    def create_document(self, filename: str, title: str, content: str) -> None:
-        document_creator = DocumentFactory.create_document_creator(
-            self._file_type, filename, title, content
-        )
-        document_creator.create_document()
+from src.features.document.document_service import DocumentService
 
 
 class DocumentPipeline:
@@ -89,7 +76,7 @@ class DocumentPipeline:
         # Try to save the document using the injected DocumentService instance
         try:
             self._document_service.create_document(
-                full_file_name, self._title, document_content
+                full_file_name, document_content, self._title
             )
             print(f"Document saved to {full_file_name}")
         except PermissionError:

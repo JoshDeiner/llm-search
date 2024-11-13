@@ -1,6 +1,4 @@
 import pytest
-from src.features.core_pipeline.execute_pipeline import execute_pipeline
-
 
 class MockUserService:
     """
@@ -33,6 +31,28 @@ def mock_user_service():
     Provide a mock User service instance for integration testing.
     """
     return MockUserService()
+
+
+class MockDocumentCreator:
+    def __init__(self, file_type, filename, title="", content=""):
+        self.file_type = file_type
+        self.filename = filename
+        self.title = title
+        self.content = content
+
+    def create_document(self):
+        print(f"Mock document created: {self.filename}")
+
+
+class MockDocumentService:
+    def __init__(self, file_type):
+        self._file_type = file_type
+
+    def create_document(self, filename, content, title=""):
+        document_creator = MockDocumentCreator(
+            file_type=self._file_type, filename=filename, title=title, content=content
+        )
+        document_creator.create_document()
 
 
 class MockDocumentPipeline:
@@ -71,9 +91,9 @@ def mock_pipeline_and_stages(monkeypatch):
     """
     Mock the DocumentPipeline class and pipeline stages for integration testing.
     """
-    # Mock DocumentPipeline
+    # Mock DocumentService
     monkeypatch.setattr(
-        "src.features.core_pipeline.stages.document_service", MockDocumentPipeline
+        "src.features.document.document_service.DocumentService", MockDocumentService
     )
 
     # Mock validate_search_results

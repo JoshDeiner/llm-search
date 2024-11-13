@@ -1,6 +1,9 @@
 import pytest
-from src.features.core_pipeline.stages.document_service import DocumentPipeline
-
+from typing import Type
+from src.features.document.shared import (
+    DocumentPipeline,
+    DocumentCreator
+)
 
 @pytest.fixture
 def test_data():
@@ -14,6 +17,10 @@ def test_data():
         summary=summary, topic=topic, file_type="md", works_cited=works_cited
     )
     return summary, topic, works_cited, pipeline
+
+@pytest.fixture
+def document_creator() -> Type[DocumentCreator]:
+    return DocumentCreator
 
 
 @pytest.mark.unit
@@ -42,7 +49,7 @@ def test_save_to_file_with_works_cited(mocker, test_data):
     """
     _, _, _, pipeline = test_data
     mock_create_document = mocker.patch(
-        "src.features.core_pipeline.stages.document_service.DocumentService.create_document"
+        "src.features.document.document_service.DocumentService.create_document"
     )
 
     file_name = "test_output"
@@ -62,7 +69,7 @@ def test_save_to_file_without_works_cited(mocker, test_data):
         summary=summary, topic=topic, file_type="md"
     )
     mock_create_document = mocker.patch(
-        "src.features.core_pipeline.stages.document_service.DocumentService.create_document"
+        "src.features.document.document_service.DocumentService.create_document"
     )
 
     file_name = "test_output_no_citations"
@@ -81,7 +88,7 @@ def test_save_to_file_permission_error(mocker, test_data, caplog):
     """
     _, _, _, pipeline = test_data
     mocker.patch(
-        "src.features.core_pipeline.stages.document_service.DocumentService.create_document",
+        "src.features.document.document_service.DocumentService.create_document",
         side_effect=PermissionError,
     )
 
