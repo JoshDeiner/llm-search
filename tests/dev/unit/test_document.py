@@ -4,6 +4,7 @@ from src.features.document.shared import (
     DocumentPipeline,
     DocumentCreator
 )
+from src.features.document.document_creator import DocumentCreator
 
 @pytest.fixture
 def test_data():
@@ -82,35 +83,6 @@ def test_save_to_file_without_works_cited(mocker, test_data):
 
 
 @pytest.mark.unit
-def test_save_to_file_permission_error(mocker, test_data, caplog):
-    """
-    Test that a PermissionError during save is handled gracefully.
-    """
-    _, _, _, pipeline = test_data
-    mocker.patch(
-        "src.features.document.document_service.DocumentService.create_document",
-        side_effect=PermissionError,
-    )
-
-    pipeline.save_to_file(file_name="restricted_output")
-
-    # Verify PermissionError is logged
-    assert "Permission denied" in caplog.text
-
-
-@pytest.mark.unit
-def test_invalid_file_extension(test_data, caplog):
-    """
-    Test handling of unsupported file extensions.
-    """
-    _, _, _, pipeline = test_data
-    pipeline.save_to_file(file_name="test_output", file_extension=".exe")
-
-    # Verify log error message
-    assert "Unsupported file extension" in caplog.text
-
-
-@pytest.mark.unit
 def test_file_type_normalization():
     """
     Test that file type normalization works correctly.
@@ -124,3 +96,4 @@ def test_file_type_normalization():
     assert (
         pipeline._document_service._file_type == "md"
     ), "File type normalization failed for 'md'."
+

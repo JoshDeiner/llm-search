@@ -4,7 +4,7 @@ from src.features.core_pipeline.validators.result_validator import (
 )
 
 
-def test_validate_search_engine_results():
+def test_validate_search_engine_results() -> None:
     search_data = {
         "web_results": [{"title": "Valid Result"}, {"title": "Invalid Result"}],
         "validation_results": [{"is_valid": True}, {"is_valid": False}],
@@ -20,7 +20,7 @@ def test_validate_search_engine_results():
     ), "Expected title to be 'Valid Result'"
 
 
-def test_validate_search_engine_results_no_validations():
+def test_validate_search_engine_results_no_validations() -> None:
     """
     Test validate_search_engine_results returns all results when no validation data is provided.
     """
@@ -36,7 +36,7 @@ def test_validate_search_engine_results_no_validations():
     assert validated_results[1]["title"] == "Result 2"
 
 
-def test_validate_search_engine_results_invalid_input():
+def test_validate_search_engine_results_invalid_input() -> None:
     search_data = {
         "web_results": "Invalid Data",
         "validation_results": "Invalid Data",
@@ -47,7 +47,7 @@ def test_validate_search_engine_results_invalid_input():
     assert validated_results == [], "Expected an empty list for invalid input"
 
 
-def test_validate_search_engine_results_mismatched_lengths():
+def test_validate_search_engine_results_mismatched_lengths() -> None:
     search_data = {
         "web_results": [{"title": "Result 1"}],
         "validation_results": [{"is_valid": True}, {"is_valid": False}],

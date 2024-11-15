@@ -7,3 +7,4 @@ monkeytype.sqlite3
 *__pycache__*
 *.pyc
 pipeline_output.md
+tests/integration_test_needs.md

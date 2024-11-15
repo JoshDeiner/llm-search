@@ -111,15 +111,19 @@ def retry_with_validation(
     for attempt in range(1, max_retries + 1):
         logging.info(f"Attempt {attempt} of {max_retries}")
 
-        results = func(*args)
-        if results and "No results found" not in results:
-            logging.info("Validation succeeded.")
-            logging.debug(f"Results returned: {results}")  # Debug log
-            return results
-        else:
-            logging.warning(
-                f"Validation failed or network error on attempt {attempt}. Retrying..."
-            )
+        try:
+            results = func(*args)
+            if results and "No results found" not in results:
+                logging.info("Validation succeeded.")
+                logging.debug(f"Results returned: {results}")  # Debug log
+                return results
+            else:
+                logging.warning(
+                    f"Validation failed or network error on attempt {attempt}. Retrying..."
+                )
+        except ValueError as e:
+            logging.error(f"ValueError encountered: {e}")
+            raise
 
     logging.error("All retries exhausted. Validation failed.")
     return None

@@ -1,6 +1,7 @@
 from typing import Type
 from src.features.document.document_creator import DocumentCreator
 
+
 class DocumentService:
     def __init__(self, file_type: str, document_creator: Type[DocumentCreator] = DocumentCreator) -> None:
         self._file_type = self._normalize_file_type(file_type)

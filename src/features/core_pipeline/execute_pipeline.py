@@ -34,6 +34,9 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     Parameters:
     - user_service: The service handling the search operation.
     - search_term: The search term to query.
+
+    Raises:
+    - ValueError: If no valid search results are fetched after retries or if summary generation fails.
     """
     # Initialize the LLM provider for summarization
     llm_provider = LLMProvider(model_name="gemini")
@@ -44,8 +47,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     )
 
     if raw_search_data is None:
-        logging.error("Failed to fetch search results after retries.")
-        return
+        raise ValueError("Failed to fetch search results after retries.")
 
     # Step 2: Validate and process the fetched results
     validated_results_text = validate_search_results(raw_search_data)
@@ -58,8 +60,7 @@ def execute_pipeline(user_service: User, search_term: str) -> None:
     summary = summarize_results(llm_provider, validated_results_text)
     if summary is None:
         logging.error("Summary generation failed.")
-        return
-    # add error handling for if summary is some form of incorrect of make summarize_results do it
+        raise ValueError("Summary generation failed.")
 
     logging.info("Summary generation succeeded.")
     logging.info(f"Final Summary:\n{summary}")

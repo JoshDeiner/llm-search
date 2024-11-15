@@ -1,4 +1,6 @@
 from typing import List
+from typing import Optional
+
 import logging
 
 from src.features.document.document_service import DocumentService
@@ -11,7 +13,12 @@ class DocumentPipeline:
     """
 
     def __init__(
-        self, summary: str, topic: str, file_type: str, works_cited: List[str] = []
+        self,
+        summary: str,
+        topic: str,
+        file_type: str,
+        works_cited: List[str] = [],
+        document_service: Optional[DocumentService] = None,
     ):
         """
         Initialize the pipeline with a summary string, a topic, a file type, and optional works cited references.
@@ -20,11 +27,12 @@ class DocumentPipeline:
         :param topic: The main topic of the document.
         :param file_type: The type of file to create (e.g., "markdown").
         :param works_cited: Optional list of works cited references.
+        :param document_service: Optional dependency injection for the DocumentService.
         """
         self._summary = summary
         self._topic = topic
         self._title = f"Summary of {topic}"
-        self._document_service = DocumentService(file_type)
+        self._document_service = document_service or DocumentService(file_type)
         self._works_cited = works_cited or []
 
     @property
@@ -70,8 +78,7 @@ class DocumentPipeline:
         # Validate file name
         full_file_name = file_name + file_extension
         if not full_file_name.endswith((".md", ".txt")):
-            logging.error(f"Unsupported file extension: {file_extension}")
-            return
+            raise ValueError(f"Unsupported file extension: {file_extension}")
 
         # Try to save the document using the injected DocumentService instance
         try:
@@ -80,8 +87,8 @@ class DocumentPipeline:
             )
             print(f"Document saved to {full_file_name}")
         except PermissionError:
-            logging.error(f"Permission denied: Cannot write to file {full_file_name}")
-        except IOError as e:
-            logging.error(f"IO error occurred: {e}")
+            raise PermissionError("You do not have permission to save this file.")
+        except OSError as e:
+            raise OSError(f"An error occurred while saving the file: {e}")
         except Exception as e:
             logging.error("Document creation failed", exc_info=True)
