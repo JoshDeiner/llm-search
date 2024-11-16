@@ -15,7 +15,6 @@ logging.basicConfig(
 
 SEARCH_TERM_GLOBAL: str = "who do the giants play november 10 in germany"
 
-
 def cli_entry() -> None:
     """
     CLI entry point for the search and summary pipeline.
@@ -39,9 +38,9 @@ def cli_entry() -> None:
 
     # Run the main pipeline with parsed search term
     logging.info("Starting search and summarization process")
-    execute_pipeline(create_user_service(), args.search_term)
+    user_service = create_user_service()
+    execute_pipeline(user_service, args.search_term)
     logging.info("Search and summarization process completed.")
-
 
 if __name__ == "__main__":
     cli_entry()
