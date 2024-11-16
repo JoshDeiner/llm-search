@@ -8,3 +8,5 @@ monkeytype.sqlite3
 *.pyc
 pipeline_output.md
 tests/integration_test_needs.md
+start.sh
+src/features/query.md

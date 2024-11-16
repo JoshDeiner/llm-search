@@ -1,5 +1,5 @@
 import pytest
-from src.features.users.user_service import UserService
+from src.features.users.services.user_query_validation_service import UserService
 
 @pytest.fixture
 def user_service() -> UserService:

@@ -3,10 +3,13 @@ import logging
 from typing import List
 from src.shared.config.types import SearchResult
 from src.shared.services.search_engine_service import SearchEngineService
-from src.features.users.user_service import UserService
+from src.features.users.services.user_query_validation_service import UserService
 
 class WebSearchPipeline:
-    def __init__(self, search_engine_service: SearchEngineService, user_service: UserService, search_term: str) -> None:
+    def __init__(self,
+                 search_engine_service: SearchEngineService,
+                 user_service: UserService,
+                 search_term: str) -> None:
         self._search_engine_service = search_engine_service
         self._user_service = user_service
         self._search_term = search_term
