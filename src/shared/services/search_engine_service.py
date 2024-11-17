@@ -1,3 +1,4 @@
+import logging
 from typing import List
 
 from src.shared.config.constants import WEB_SEARCH_URL
@@ -22,8 +23,11 @@ class SearchEngineService:
 
     def run(self, query: str) -> List[SearchResult]:
         """Perform a search and return collected results."""
+        if not query:
+            logging.error("Empty query provided to SearchEngineService.run")
+            return []
+        
         results: List[SearchResult] = self._search_wrapper.results(
             query=query, num_results=self._num_results, engines=self._engines
         )
-
         return results

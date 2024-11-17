@@ -8,3 +8,8 @@ class UserService:
         """Generates a search term based on user input."""
         sanitized_input = self.sanitize_input(user_input)
         return sanitized_input
+    
+    # create a method to make sure input is not empty
+    def validate_input(self, user_input: str) -> bool:
+        """Validates that the user input is not empty."""
+        return bool(user_input)
