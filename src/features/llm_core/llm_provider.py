@@ -28,31 +28,9 @@ def LLMProvider(model_name: str = "gemini") -> Union[GeminiLLM, OllamaLLM]:
         "ollama": OllamaLLM
     }
 
-# mypy seems to have problem or is out of date
-# shouldnt you says models.get(model_name) instead of models[model_name]?
     model = models.get(model_name, 0)
     if model:
         return singleton(model)
     else:
         raise ValueError("Unsupported model name. Choose 'gemini' or 'ollama'.")
-    # if model_name in models:
-    #     return singleton(models[model_name])
-    # else:
-    #     raise ValueError("Unsupported model name. Choose 'gemini' or 'ollama'.")
 
-    # if (model_name == "gemini"):
-    #     return singleton(GeminiLLM)
-    # elif (model_name == "ollama"):
-    #     return singleton(OllamaLLM)
-    # else:
-    #     raise ValueError("Unsupported model name. Choose 'gemini' or 'ollama'.")
-
-
-# mypy seems to have problem or is out of date
-    # match model_name:
-    #     case "gemini":
-    #         return singleton(GeminiLLM)
-    #     case "ollama":
-    #         return singleton(OllamaLLM)
-    #     case _:
-    #         raise ValueError("Unsupported model name. Choose 'gemini' or 'ollama'.")

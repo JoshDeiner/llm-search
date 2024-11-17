@@ -1,8 +1,8 @@
 import logging
-from src.features.llm_core.llm_core import LLMCore
+from src.features.llm_core.llm_provider import LLMProvider
 
 
-def summarize_results(llm_core: LLMCore, results_text: str) -> str:
+def summarize_results(llm_provider: LLMProvider, results_text: str) -> str:
     """
     Summarizes the search results text using the LLM core.
 
@@ -16,7 +16,7 @@ def summarize_results(llm_core: LLMCore, results_text: str) -> str:
     summary: str
 
     try:
-        summary = llm_core.summarize_text(results_text)
+        summary = llm_provider.summarize_text(results_text)
         logging.info("Summary generated successfully.")
         logging.info("Summary Content:")
         logging.info(summary)

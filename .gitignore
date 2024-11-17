@@ -10,3 +10,4 @@ pipeline_output.md
 tests/integration_test_needs.md
 start.sh
 src/features/query.mdsrc/features/users/query_validation_service.md
+src/features/query.md
