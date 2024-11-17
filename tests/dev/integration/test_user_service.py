@@ -29,10 +29,15 @@ def mock_user_service(monkeypatch):
         MockSearchValidationService,
     )
 
+    class MockUserService:
+        def create_search_term(self, user_input):
+            return "test query"
+
     # Create and return the User instance with mocked services
     return User(
         web_search_service=MockWebSearchService(),
         validation_service=MockSearchValidationService(),
+        user_service=MockUserService(),  # Add the mocked UserService
     )
 
 
@@ -86,10 +91,15 @@ def test_user_search_empty_results(monkeypatch):
         MockSearchValidationService,
     )
 
+    class MockUserService:
+        def create_search_term(self, user_input):
+            return "test query"
+
     # Create the User instance
     user_service = User(
         web_search_service=MockWebSearchService(),
         validation_service=MockSearchValidationService(),
+        user_service=MockUserService(),  # Add the mocked UserService
     )
 
     # Act
